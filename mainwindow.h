@@ -19,6 +19,9 @@ private:
   Ui::MainWindow *ui;
 
   StrobeLengthModel *strobeLengthModel;
+
+private slots:
+  void sendButtonSlot(bool);
 };
 
 #endif // MAINWINDOW_H
