@@ -3,6 +3,7 @@
 
 #include "tablemodel.h"
 #include <QMainWindow>
+#include <QUdpSocket>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +20,9 @@ private:
   Ui::MainWindow *ui;
 
   StrobeLengthModel *strobeLengthModel;
+
+  QUdpSocket *sendSocket;
+  QUdpSocket *readSocket;
 
 private slots:
   void sendButtonSlot(bool);
