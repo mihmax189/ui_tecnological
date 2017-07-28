@@ -48,8 +48,15 @@ Qt::ItemFlags StrobeLengthModel::flags(const QModelIndex &index) const {
 QVariant StrobeLengthModel::headerData(int section, Qt::Orientation orientation,
                                        int role) const {
   if (role == Qt::DisplayRole) {
-    return QVariant(section - 1);
+    if (orientation == Qt::Vertical) {
+      // reverse row numbers
+      return section;
+    }
+
+    if (orientation == Qt::Horizontal)
+      return section;
   }
+
   return QAbstractTableModel::headerData(section, orientation, role);
 }
 
