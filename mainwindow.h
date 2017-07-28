@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "tablemodel.h"
 #include <QMainWindow>
 
 namespace Ui {
@@ -16,6 +17,8 @@ public:
 
 private:
   Ui::MainWindow *ui;
+
+  StrobeLengthModel *strobeLengthModel;
 };
 
 #endif // MAINWINDOW_H
