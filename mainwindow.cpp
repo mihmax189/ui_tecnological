@@ -20,4 +20,24 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
-void MainWindow::sendButtonSlot(bool) {}
+void MainWindow::marshalAndSend(Codograms::Codogram &cdg, const QString &addr,
+                                quint16 port) {
+  cdg.marshal();
+  if (sendSocket.writeDatagram(cdg.getBuf(), QHostAddress(addr), port) == -1)
+    qCritical("writeDatagram");
+}
+
+void MainWindow::sendButtonSlot(bool) {
+  static quint16 data[regims][strobs];
+  strobeLengthModel->getModelData(data);
+
+  static Codograms::send_read_regimes_strobe_data buff;
+
+  for (int _regime = 0; _regime < regims; ++_regime) {
+    for (int _strobe = 0; _strobe < strobs; ++_strobe) {
+      buff.m.strobe_length_in_cols[_strobe] = data[_regime][_strobe];
+    }
+    buff.m.regime = _regime;
+    marshalAndSend(buff, "193.1.1.64", 7251);
+  }
+}
