@@ -1,4 +1,5 @@
 #include "tablemodel.h"
+#include <QDebug>
 
 StrobeLengthModel::StrobeLengthModel(QObject *parent)
     : QAbstractTableModel(parent), _rows(regims), _cols(strobs) {
@@ -42,7 +43,22 @@ Qt::ItemFlags StrobeLengthModel::flags(const QModelIndex &index) const {
   if (!index.isValid())
     return Qt::ItemIsEnabled;
 
-  return QAbstractItemModel::flags(index);
+  return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool StrobeLengthModel::setData(const QModelIndex &index, const QVariant &value,
+                                int role) {
+  /**
+    Установка нового значения в ячейке при редактировании таблицы
+    */
+
+  if (index.isValid() && role == Qt::EditRole) {
+    _data[index.row()][index.column()] = value.value<int>();
+    emit dataChanged(index, index);
+    return true;
+  }
+
+  return false;
 }
 
 QVariant StrobeLengthModel::headerData(int section, Qt::Orientation orientation,

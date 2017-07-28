@@ -18,6 +18,7 @@ public:
   QVariant data(const QModelIndex &, int) const;
   int rowCount(const QModelIndex &) const;
   int columnCount(const QModelIndex &) const;
+  bool setData(const QModelIndex &index, const QVariant &value, int role);
   Qt::ItemFlags flags(const QModelIndex &) const;
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role = Qt::DisplayRole) const;
