@@ -76,7 +76,7 @@ QVariant StrobeLengthModel::headerData(int section, Qt::Orientation orientation,
   return QAbstractTableModel::headerData(section, orientation, role);
 }
 
-void StrobeLengthModel::updateModelData(float (*data)[strobs]) {
+void StrobeLengthModel::updateModelData(quint16 (*data)[strobs]) {
   /**
     Обновление данных модели
   */
@@ -86,4 +86,13 @@ void StrobeLengthModel::updateModelData(float (*data)[strobs]) {
       _data[_row][_col] = data[_row][_col];
   // после обновления данных в модели, ее надо обновить
   endResetModel();
+}
+
+void StrobeLengthModel::getModelData(quint16 (*data)[strobs]) {
+  /**
+    Берем данные, чтобы отослать их на сервер
+    */
+  for (int _row = 0; _row < _rows; ++_row)
+    for (int _col = 0; _col < _cols; ++_col)
+      data[_row][_col] = _data[_row][_col];
 }

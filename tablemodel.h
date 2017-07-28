@@ -22,7 +22,8 @@ public:
   Qt::ItemFlags flags(const QModelIndex &) const;
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role = Qt::DisplayRole) const;
-  void updateModelData(float (*data)[strobs]);
+  void updateModelData(quint16 (*data)[strobs]);
+  void getModelData(quint16 (*data)[strobs]);
 };
 
 #endif // TABLEMODEL_H
