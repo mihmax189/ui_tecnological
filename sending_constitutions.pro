@@ -26,11 +26,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        tablemodel.cpp
+        tablemodel.cpp \
+        external_rlmc_fv_proto.gen.c \
+        external_rlmc_fv_proto.gen.cw.cpp \
 
 HEADERS += \
         mainwindow.h \
-        tablemodel.h
+        tablemodel.h \
+        external_rlmc_fv_proto.gen.h \
+        external_rlmc_fv_proto.gen.cw.hpp \
 
 FORMS += \
         mainwindow.ui
