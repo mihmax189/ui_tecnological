@@ -14,8 +14,15 @@ MainWindow::MainWindow(QWidget *parent)
   ui->strobeLengthTableView->verticalHeader()->setSectionResizeMode(
       QHeaderView::Stretch);
 
+  if (!readSocket.bind(7252, QUdpSocket::ShareAddress))
+    qCritical("recvSocket");
+
+  connect(&readSocket, SIGNAL(readyRead()), this, SLOT(processReadData()));
+
   connect(ui->sendButton, SIGNAL(clicked(bool)), this,
           SLOT(sendButtonSlot(bool)));
+  connect(ui->readButton, SIGNAL(clicked(bool)), this,
+          SLOT(readButtonSlot(bool)));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -32,7 +39,7 @@ void MainWindow::sendButtonSlot(bool) {
   strobeLengthModel->getModelData(data);
 
   static Codograms::send_read_regimes_strobe_data buff;
-
+  buff.m.ts = send_read_regimes_strobe_data__send;
   for (int _regime = 0; _regime < regims; ++_regime) {
     for (int _strobe = 0; _strobe < strobs; ++_strobe) {
       buff.m.strobe_length_in_cols[_strobe] = data[_regime][_strobe];
@@ -41,3 +48,11 @@ void MainWindow::sendButtonSlot(bool) {
     marshalAndSend(buff, "193.1.1.64", 7251);
   }
 }
+
+void MainWindow::readButtonSlot(bool) {
+  static Codograms::regime_key_fap_request buff;
+  // послать запрос на сервер: выдать засланные данные на панель.
+  marshalAndSend(buff, "193.1.1.64", 7251);
+}
+
+void MainWindow::processReadData() { static quint16 data[regims][strobs]; }

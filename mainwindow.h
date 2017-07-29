@@ -29,6 +29,8 @@ private:
 
 private slots:
   void sendButtonSlot(bool);
+  void readButtonSlot(bool);
+  void processReadData();
 };
 
 #endif // MAINWINDOW_H
