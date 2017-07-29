@@ -26,7 +26,7 @@ private:
   QUdpSocket readSocket;
   void marshalAndSend(Codograms::Codogram &cdg, const QString &addr,
                       quint16 port);
-
+  void getDataForModel(quint16 *strobe_length, int regime);
 private slots:
   void sendButtonSlot(bool);
   void readButtonSlot(bool);

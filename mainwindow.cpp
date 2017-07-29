@@ -40,8 +40,7 @@ void MainWindow::sendButtonSlot(bool) {
   quint16 data[regims][strobs];
   strobeLengthModel->getModelData(data);
 
-  Codograms::send_read_regimes_strobe_data buff;
-  buff.m.ts = send_read_regimes_strobe_data__send;
+  Codograms::send_regimes_strobe_data buff;
   for (int _regime = 0; _regime < regims; ++_regime) {
     for (int _strobe = 0; _strobe < strobs; ++_strobe) {
       buff.m.strobe_length_in_cols[_strobe] = data[_regime][_strobe];
@@ -63,4 +62,25 @@ void MainWindow::fireButtonSlot(bool) {
   marshalAndSend(buff, "193.1.1.64", 7251);
 }
 
-void MainWindow::processReadData() { static quint16 data[regims][strobs]; }
+void MainWindow::processReadData() {
+  Codograms::read_regimes_strobe_data buff;
+
+  while (readSocket.hasPendingDatagrams()) {
+    QByteArray resp(readSocket.pendingDatagramSize(), '\0');
+    readSocket.readDatagram(resp.data(), resp.size());
+
+    if (Is_read_regimes_strobe_data(resp.data(), resp.size())) {
+      buff.buf = resp;
+      buff.unmarshal();
+      getDataForModel(buff.m.strobe_length_in_cols, buff.m.regime);
+    }
+  }
+}
+
+void MainWindow::getDataForModel(quint16 *strobe_length, int regime) {
+  static quint16 data[regims][strobs];
+  for (int _strobe = 0; _strobe < strobs; ++_strobe)
+    data[regime][_strobe] = strobe_length[_strobe];
+  if (regime == (regims - 1))
+    strobeLengthModel->updateModelData(data);
+}
