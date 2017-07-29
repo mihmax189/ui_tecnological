@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
   ui->strobeLengthTableView->verticalHeader()->setSectionResizeMode(
       QHeaderView::Stretch);
 
-  if (!readSocket.bind(7252, QUdpSocket::ShareAddress))
-    qCritical("recvSocket");
+  if (!readSocket.bind(quint16(7252), QUdpSocket::ShareAddress))
+    qCritical("recvSocket bind error!");
 
   connect(&readSocket, SIGNAL(readyRead()), this, SLOT(processReadData()));
 
@@ -37,10 +37,10 @@ void MainWindow::marshalAndSend(Codograms::Codogram &cdg, const QString &addr,
 }
 
 void MainWindow::sendButtonSlot(bool) {
-  static quint16 data[regims][strobs];
+  quint16 data[regims][strobs];
   strobeLengthModel->getModelData(data);
 
-  static Codograms::send_read_regimes_strobe_data buff;
+  Codograms::send_read_regimes_strobe_data buff;
   buff.m.ts = send_read_regimes_strobe_data__send;
   for (int _regime = 0; _regime < regims; ++_regime) {
     for (int _strobe = 0; _strobe < strobs; ++_strobe) {
@@ -52,13 +52,13 @@ void MainWindow::sendButtonSlot(bool) {
 }
 
 void MainWindow::readButtonSlot(bool) {
-  static Codograms::regimes_strobe_request buff;
+  Codograms::regimes_strobe_request buff;
   // послать запрос на сервер: выдать засланные данные на панель.
   marshalAndSend(buff, "193.1.1.64", 7251);
 }
 
 void MainWindow::fireButtonSlot(bool) {
-  static Codograms::fire_regimes_strobe buff;
+  Codograms::fire_regimes_strobe buff;
   // послать на сервер команду прожечь модули данными по режимам и стробам
   marshalAndSend(buff, "193.1.1.64", 7251);
 }
