@@ -192,6 +192,36 @@ public:
   static const size_t bufsize;
 };
 
+class regimes_strobe_request : public Codogram {
+public:
+  regimes_strobe_request();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::regimes_strobe_request m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
+class fire_regimes_strobe : public Codogram {
+public:
+  fire_regimes_strobe();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::fire_regimes_strobe m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
 class turn_ant_on_reception : public Codogram {
 public:
   turn_ant_on_reception();

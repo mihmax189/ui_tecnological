@@ -600,6 +600,98 @@ int Unmarshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c, co
 
 
 
+int Marshal_regimes_strobe_request(regimes_strobe_request *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 247;
+  c->request = 1;
+  c->request = htons(c->request);
+  memcpy((uint8_t*)ch, c, 4);
+
+  return 0;
+}
+
+int Unmarshal_regimes_strobe_request(regimes_strobe_request *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  memcpy(c, ch, 4);
+  c->request = ntohs(c->request);
+
+  return 0;
+}
+
+
+int Is_regimes_strobe_request(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint16_t request = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+  request |= (ch[2]<<8)&MASK(15, 8);
+  request |= (ch[3]>>0)&MASK(7, 0);
+
+  if (ts == 247 && request == 1) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
+int Marshal_fire_regimes_strobe(fire_regimes_strobe *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 246;
+  c->fire = 1;
+  c->fire = htons(c->fire);
+  memcpy((uint8_t*)ch, c, 4);
+
+  return 0;
+}
+
+int Unmarshal_fire_regimes_strobe(fire_regimes_strobe *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  memcpy(c, ch, 4);
+  c->fire = ntohs(c->fire);
+
+  return 0;
+}
+
+
+int Is_fire_regimes_strobe(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint16_t fire = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+  fire |= (ch[2]<<8)&MASK(15, 8);
+  fire |= (ch[3]>>0)&MASK(7, 0);
+
+  if (ts == 246 && fire == 1) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
 int Marshal_turn_ant_on_reception(turn_ant_on_reception *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 

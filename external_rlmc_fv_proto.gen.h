@@ -304,6 +304,42 @@ int Marshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c,
 int Unmarshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c,
                                             const void *buff, size_t size);
 
+#define regimes_strobe_request__BUFSIZE 4
+#define regimes_strobe_request__TS 247
+#define regimes_strobe_request__REQUEST 1
+
+typedef struct regimes_strobe_request {
+
+  uint8_t ist;      // 8 bits
+  uint8_t ts;       // 8 bits
+  uint16_t request; // 16 bits
+
+} __attribute__((packed)) regimes_strobe_request;
+
+int Marshal_regimes_strobe_request(regimes_strobe_request *c, void *buff,
+                                   size_t size);
+int Unmarshal_regimes_strobe_request(regimes_strobe_request *c,
+                                     const void *buff, size_t size);
+int Is_regimes_strobe_request(void *buff, size_t size);
+
+#define fire_regimes_strobe__BUFSIZE 4
+#define fire_regimes_strobe__TS 246
+#define fire_regimes_strobe__FIRE 1
+
+typedef struct fire_regimes_strobe {
+
+  uint8_t ist;   // 8 bits
+  uint8_t ts;    // 8 bits
+  uint16_t fire; // 16 bits
+
+} __attribute__((packed)) fire_regimes_strobe;
+
+int Marshal_fire_regimes_strobe(fire_regimes_strobe *c, void *buff,
+                                size_t size);
+int Unmarshal_fire_regimes_strobe(fire_regimes_strobe *c, const void *buff,
+                                  size_t size);
+int Is_fire_regimes_strobe(void *buff, size_t size);
+
 #define turn_ant_on_reception__BUFSIZE 4
 #define turn_ant_on_reception__TS 15
 #define turn_ant_on_reception__off 0

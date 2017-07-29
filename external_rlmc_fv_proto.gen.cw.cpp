@@ -405,6 +405,80 @@ void Codograms::send_read_regimes_strobe_data::clearMessage() {
 
 int Codograms::send_read_regimes_strobe_data::msize() { return sizeof(m); }
 
+Codograms::regimes_strobe_request::regimes_strobe_request() {
+  buf.fill(0, regimes_strobe_request__BUFSIZE);
+  clearMessage();
+}
+
+const size_t Codograms::regimes_strobe_request::bufsize =
+    regimes_strobe_request__BUFSIZE;
+
+bool Codograms::regimes_strobe_request::marshal() {
+  if (Marshal_regimes_strobe_request(&m, buf.data(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::regimes_strobe_request::unmarshal() {
+  if (Unmarshal_regimes_strobe_request(&m, buf.constData(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::regimes_strobe_request::checkBuf() {
+  if (Is_regimes_strobe_request(buf.data(), buf.size()))
+    return true;
+  else
+    return false;
+}
+
+const QByteArray &Codograms::regimes_strobe_request::getBuf() { return buf; }
+
+void Codograms::regimes_strobe_request::clearMessage() {
+  memset(&m, 0, sizeof(m));
+}
+
+int Codograms::regimes_strobe_request::msize() { return sizeof(m); }
+
+Codograms::fire_regimes_strobe::fire_regimes_strobe() {
+  buf.fill(0, fire_regimes_strobe__BUFSIZE);
+  clearMessage();
+}
+
+const size_t Codograms::fire_regimes_strobe::bufsize =
+    fire_regimes_strobe__BUFSIZE;
+
+bool Codograms::fire_regimes_strobe::marshal() {
+  if (Marshal_fire_regimes_strobe(&m, buf.data(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::fire_regimes_strobe::unmarshal() {
+  if (Unmarshal_fire_regimes_strobe(&m, buf.constData(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::fire_regimes_strobe::checkBuf() {
+  if (Is_fire_regimes_strobe(buf.data(), buf.size()))
+    return true;
+  else
+    return false;
+}
+
+const QByteArray &Codograms::fire_regimes_strobe::getBuf() { return buf; }
+
+void Codograms::fire_regimes_strobe::clearMessage() {
+  memset(&m, 0, sizeof(m));
+}
+
+int Codograms::fire_regimes_strobe::msize() { return sizeof(m); }
+
 Codograms::turn_ant_on_reception::turn_ant_on_reception() {
   buf.fill(0, turn_ant_on_reception__BUFSIZE);
   clearMessage();
