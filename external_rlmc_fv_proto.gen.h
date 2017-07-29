@@ -283,13 +283,12 @@ int Unmarshal_codes_phases_antPD(codes_phases_antPD *c, const void *buff,
                                  size_t size);
 int Is_codes_phases_antPD(void *buff, size_t size);
 
-#define send_read_regimes_strobe_data__BUFSIZE 32
-#define send_read_regimes_strobe_data__send 249
-#define send_read_regimes_strobe_data__read 248
-#define send_read_regimes_strobe_data__strobe_length_in_cols_OFFSET 4
-#define send_read_regimes_strobe_data__strobe_length_in_cols_SIZE 28
+#define send_regimes_strobe_data__BUFSIZE 32
+#define send_regimes_strobe_data__TS 249
+#define send_regimes_strobe_data__strobe_length_in_cols_OFFSET 4
+#define send_regimes_strobe_data__strobe_length_in_cols_SIZE 28
 
-typedef struct send_read_regimes_strobe_data {
+typedef struct send_regimes_strobe_data {
 
   uint8_t ist;    // 8 bits
   uint8_t ts;     // 8 bits
@@ -297,12 +296,34 @@ typedef struct send_read_regimes_strobe_data {
   uint8_t strobe; // 4 bits
   uint16_t strobe_length_in_cols[14];
 
-} send_read_regimes_strobe_data;
+} send_regimes_strobe_data;
 
-int Marshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c,
-                                          void *buff, size_t size);
-int Unmarshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c,
-                                            const void *buff, size_t size);
+int Marshal_send_regimes_strobe_data(send_regimes_strobe_data *c, void *buff,
+                                     size_t size);
+int Unmarshal_send_regimes_strobe_data(send_regimes_strobe_data *c,
+                                       const void *buff, size_t size);
+int Is_send_regimes_strobe_data(void *buff, size_t size);
+
+#define read_regimes_strobe_data__BUFSIZE 32
+#define read_regimes_strobe_data__TS 248
+#define read_regimes_strobe_data__strobe_length_in_cols_OFFSET 4
+#define read_regimes_strobe_data__strobe_length_in_cols_SIZE 28
+
+typedef struct read_regimes_strobe_data {
+
+  uint8_t ist;    // 8 bits
+  uint8_t ts;     // 8 bits
+  uint8_t regime; // 5 bits
+  uint8_t strobe; // 4 bits
+  uint16_t strobe_length_in_cols[14];
+
+} read_regimes_strobe_data;
+
+int Marshal_read_regimes_strobe_data(read_regimes_strobe_data *c, void *buff,
+                                     size_t size);
+int Unmarshal_read_regimes_strobe_data(read_regimes_strobe_data *c,
+                                       const void *buff, size_t size);
+int Is_read_regimes_strobe_data(void *buff, size_t size);
 
 #define regimes_strobe_request__BUFSIZE 4
 #define regimes_strobe_request__TS 247

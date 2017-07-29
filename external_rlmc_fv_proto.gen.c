@@ -558,12 +558,13 @@ int Is_codes_phases_antPD(void *buff, size_t size) {
 }
 
 
-int Marshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c, void *buff, size_t size) {
+int Marshal_send_regimes_strobe_data(send_regimes_strobe_data *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 
   if (size < 32 || buff == NULL) return -1;
 
   memset(buff, 0, size);
+  c->ts = 249;
   ch[0] |= (c->ist<<0)&MASK(7, 0);
   ch[1] |= (c->ts<<0)&MASK(7, 0);
   ch[2] |= (c->regime<<3)&MASK(7, 3);
@@ -578,7 +579,7 @@ int Marshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c, void
   return 0;
 }
 
-int Unmarshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c, const void *buff, size_t size) {
+int Unmarshal_send_regimes_strobe_data(send_regimes_strobe_data *c, const void *buff, size_t size) {
   const uint8_t *ch = (uint8_t*)buff;
 
   if (size < 32 || buff == NULL) return -1;
@@ -598,6 +599,79 @@ int Unmarshal_send_read_regimes_strobe_data(send_read_regimes_strobe_data *c, co
   return 0;
 }
 
+
+int Is_send_regimes_strobe_data(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 32 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+
+  if (ts == 249) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
+int Marshal_read_regimes_strobe_data(read_regimes_strobe_data *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 32 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 248;
+  ch[0] |= (c->ist<<0)&MASK(7, 0);
+  ch[1] |= (c->ts<<0)&MASK(7, 0);
+  ch[2] |= (c->regime<<3)&MASK(7, 3);
+  ch[3] |= (c->strobe<<4)&MASK(7, 4);
+
+  int i;
+  for (i = 0; i < 14; ++i) {
+    c->strobe_length_in_cols[i] = htons(c->strobe_length_in_cols[i]);
+  }
+  memcpy(&((uint8_t*)buff)[4], c->strobe_length_in_cols, 28);
+
+  return 0;
+}
+
+int Unmarshal_read_regimes_strobe_data(read_regimes_strobe_data *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 32 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  c->ist |= (ch[0]>>0)&MASK(7, 0);
+  c->ts |= (ch[1]>>0)&MASK(7, 0);
+  c->regime |= (ch[2]>>3)&MASK(4, 0);
+  c->strobe |= (ch[3]>>4)&MASK(3, 0);
+
+  memcpy(c->strobe_length_in_cols, &((uint8_t*)buff)[4], 28);
+  int i;
+  for (i = 0; i < 14; ++i) {
+    c->strobe_length_in_cols[i] = ntohs(c->strobe_length_in_cols[i]);
+  }
+
+  return 0;
+}
+
+
+int Is_read_regimes_strobe_data(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 32 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+
+  if (ts == 248) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 
 
 int Marshal_regimes_strobe_request(regimes_strobe_request *c, void *buff, size_t size) {

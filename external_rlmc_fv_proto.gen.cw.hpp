@@ -177,17 +177,32 @@ public:
   static const size_t bufsize;
 };
 
-class send_read_regimes_strobe_data : public Codogram {
+class send_regimes_strobe_data : public Codogram {
 public:
-  send_read_regimes_strobe_data();
+  send_regimes_strobe_data();
   bool marshal();
   bool unmarshal();
-  
+  bool checkBuf();
   const QByteArray& getBuf();
   void clearMessage();
   int msize();
 
-  ::send_read_regimes_strobe_data m;
+  ::send_regimes_strobe_data m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
+class read_regimes_strobe_data : public Codogram {
+public:
+  read_regimes_strobe_data();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::read_regimes_strobe_data m;
   QByteArray buf;
   static const size_t bufsize;
 };
