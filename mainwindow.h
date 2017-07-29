@@ -30,6 +30,7 @@ private:
 private slots:
   void sendButtonSlot(bool);
   void readButtonSlot(bool);
+  void fireButtonSlot(bool);
   void processReadData();
 };
 

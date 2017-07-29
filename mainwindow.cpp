@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
           SLOT(sendButtonSlot(bool)));
   connect(ui->readButton, SIGNAL(clicked(bool)), this,
           SLOT(readButtonSlot(bool)));
+  connect(ui->fireButton, SIGNAL(clicked(bool)), this,
+          SLOT(fireButtonSlot(bool)));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -50,8 +52,14 @@ void MainWindow::sendButtonSlot(bool) {
 }
 
 void MainWindow::readButtonSlot(bool) {
-  static Codograms::regime_key_fap_request buff;
+  static Codograms::regimes_strobe_request buff;
   // послать запрос на сервер: выдать засланные данные на панель.
+  marshalAndSend(buff, "193.1.1.64", 7251);
+}
+
+void MainWindow::fireButtonSlot(bool) {
+  static Codograms::fire_regimes_strobe buff;
+  // послать на сервер команду прожечь модули данными по режимам и стробам
   marshalAndSend(buff, "193.1.1.64", 7251);
 }
 
