@@ -1,12 +1,15 @@
 #include "tablemodel.h"
+#include <QColor>
 #include <QDebug>
 
 StrobeLengthModel::StrobeLengthModel(QObject *parent)
     : QAbstractTableModel(parent), _rows(regims), _cols(strobs) {
 
   for (int _row = 0; _row < _rows; ++_row)
-    for (int _col = 0; _col < _cols; ++_col)
+    for (int _col = 0; _col < _cols; ++_col) {
       _data[_row][_col] = 0;
+      _flags[_row][_col] = false;
+    }
 }
 
 QVariant StrobeLengthModel::data(const QModelIndex &index, int role) const {
@@ -18,6 +21,11 @@ QVariant StrobeLengthModel::data(const QModelIndex &index, int role) const {
 
   if (role == Qt::TextAlignmentRole)
     return Qt::AlignCenter;
+
+  if (role == Qt::BackgroundColorRole && _flags[index.row()][index.column()])
+    return QVariant::fromValue(QColor("green"));
+  else if (role == Qt::BackgroundColorRole)
+    return QVariant::fromValue(QColor("white"));
 
   return (role == Qt::DisplayRole) ? _data[index.row()][index.column()]
                                    : QVariant();
@@ -78,13 +86,14 @@ QVariant StrobeLengthModel::headerData(int section, Qt::Orientation orientation,
 
 void StrobeLengthModel::updateModelData(quint16 (*data)[strobs]) {
   /**
-    Обновление данных модели
+    Сравнение считанных данных с выставленными данными модели
   */
   beginResetModel();
   for (int _row = 0; _row < _rows; ++_row)
     for (int _col = 0; _col < _cols; ++_col)
-      _data[_row][_col] = data[_row][_col];
-  // после обновления данных в модели, ее надо обновить
+      if (_data[_row][_col] == data[_row][_col]) {
+        _flags[_row][_col] = true;
+      }
   endResetModel();
 }
 

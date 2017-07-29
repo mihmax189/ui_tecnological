@@ -12,6 +12,7 @@ private:
   int _cols;
 
   quint16 _data[regims][strobs];
+  bool _flags[regims][strobs];
 
 public:
   StrobeLengthModel(QObject *parent);
