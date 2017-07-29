@@ -60,6 +60,7 @@ void MainWindow::fireButtonSlot(bool) {
   Codograms::fire_regimes_strobe buff;
   // послать на сервер команду прожечь модули данными по режимам и стробам
   marshalAndSend(buff, "193.1.1.64", 7251);
+  strobeLengthModel->resetFlags();
 }
 
 void MainWindow::processReadData() {

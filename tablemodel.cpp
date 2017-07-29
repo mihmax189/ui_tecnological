@@ -23,7 +23,7 @@ QVariant StrobeLengthModel::data(const QModelIndex &index, int role) const {
     return Qt::AlignCenter;
 
   if (role == Qt::BackgroundColorRole && _flags[index.row()][index.column()])
-    return QVariant::fromValue(QColor("green"));
+    return QVariant::fromValue(QColor("light green"));
   else if (role == Qt::BackgroundColorRole)
     return QVariant::fromValue(QColor("white"));
 
@@ -104,4 +104,12 @@ void StrobeLengthModel::getModelData(quint16 (*data)[strobs]) {
   for (int _row = 0; _row < _rows; ++_row)
     for (int _col = 0; _col < _cols; ++_col)
       data[_row][_col] = _data[_row][_col];
+}
+
+void StrobeLengthModel::resetFlags() {
+  beginResetModel();
+  for (int _row = 0; _row < _rows; ++_row)
+    for (int _col = 0; _col < _cols; ++_col)
+      _flags[_row][_col] = false;
+  endResetModel();
 }

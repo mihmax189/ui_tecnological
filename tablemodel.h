@@ -25,6 +25,7 @@ public:
                       int role = Qt::DisplayRole) const;
   void updateModelData(quint16 (*data)[strobs]);
   void getModelData(quint16 (*data)[strobs]);
+  void resetFlags();
 };
 
 #endif // TABLEMODEL_H
