@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->strobeLengthTableView->verticalHeader()->setSectionResizeMode(
       QHeaderView::Stretch);
 
-  if (!readSocket.bind(quint16(7252), QUdpSocket::ShareAddress))
+  if (!readSocket.bind(7252, QUdpSocket::ShareAddress))
     qCritical("recvSocket bind error!");
 
   connect(&readSocket, SIGNAL(readyRead()), this, SLOT(processReadData()));
