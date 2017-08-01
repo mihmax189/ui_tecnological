@@ -766,6 +766,48 @@ int Is_fire_regimes_strobe(void *buff, size_t size) {
 }
 
 
+int Marshal_session_regimes_strobe(session_regimes_strobe *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 245;
+  c->state = htons(c->state);
+  memcpy((uint8_t*)ch, c, 4);
+
+  return 0;
+}
+
+int Unmarshal_session_regimes_strobe(session_regimes_strobe *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  memcpy(c, ch, 4);
+  c->state = ntohs(c->state);
+
+  return 0;
+}
+
+
+int Is_session_regimes_strobe(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+
+  if (ts == 245) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
 int Marshal_turn_ant_on_reception(turn_ant_on_reception *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 

@@ -361,6 +361,25 @@ int Unmarshal_fire_regimes_strobe(fire_regimes_strobe *c, const void *buff,
                                   size_t size);
 int Is_fire_regimes_strobe(void *buff, size_t size);
 
+#define session_regimes_strobe__BUFSIZE 4
+#define session_regimes_strobe__TS 245
+#define session_regimes_strobe__end 0
+#define session_regimes_strobe__begin 1
+
+typedef struct session_regimes_strobe {
+
+  uint8_t ist;    // 8 bits
+  uint8_t ts;     // 8 bits
+  uint16_t state; // 16 bits
+
+} __attribute__((packed)) session_regimes_strobe;
+
+int Marshal_session_regimes_strobe(session_regimes_strobe *c, void *buff,
+                                   size_t size);
+int Unmarshal_session_regimes_strobe(session_regimes_strobe *c,
+                                     const void *buff, size_t size);
+int Is_session_regimes_strobe(void *buff, size_t size);
+
 #define turn_ant_on_reception__BUFSIZE 4
 #define turn_ant_on_reception__TS 15
 #define turn_ant_on_reception__off 0

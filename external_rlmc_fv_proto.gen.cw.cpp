@@ -521,6 +521,43 @@ void Codograms::fire_regimes_strobe::clearMessage() {
 
 int Codograms::fire_regimes_strobe::msize() { return sizeof(m); }
 
+Codograms::session_regimes_strobe::session_regimes_strobe() {
+  buf.fill(0, session_regimes_strobe__BUFSIZE);
+  clearMessage();
+}
+
+const size_t Codograms::session_regimes_strobe::bufsize =
+    session_regimes_strobe__BUFSIZE;
+
+bool Codograms::session_regimes_strobe::marshal() {
+  if (Marshal_session_regimes_strobe(&m, buf.data(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::session_regimes_strobe::unmarshal() {
+  if (Unmarshal_session_regimes_strobe(&m, buf.constData(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::session_regimes_strobe::checkBuf() {
+  if (Is_session_regimes_strobe(buf.data(), buf.size()))
+    return true;
+  else
+    return false;
+}
+
+const QByteArray &Codograms::session_regimes_strobe::getBuf() { return buf; }
+
+void Codograms::session_regimes_strobe::clearMessage() {
+  memset(&m, 0, sizeof(m));
+}
+
+int Codograms::session_regimes_strobe::msize() { return sizeof(m); }
+
 Codograms::turn_ant_on_reception::turn_ant_on_reception() {
   buf.fill(0, turn_ant_on_reception__BUFSIZE);
   clearMessage();

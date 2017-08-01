@@ -237,6 +237,21 @@ public:
   static const size_t bufsize;
 };
 
+class session_regimes_strobe : public Codogram {
+public:
+  session_regimes_strobe();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::session_regimes_strobe m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
 class turn_ant_on_reception : public Codogram {
 public:
   turn_ant_on_reception();
