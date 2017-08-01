@@ -25,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
           SLOT(readButtonSlot(bool)));
   connect(ui->fireButton, SIGNAL(clicked(bool)), this,
           SLOT(fireButtonSlot(bool)));
+
+  // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
+  Codograms::session_regimes_strobe buff;
+  buff.m.state = session_regimes_strobe__begin;
+  marshalAndSend(buff, "193.1.1.64", 7251);
 }
 
 MainWindow::~MainWindow() { delete ui; }
