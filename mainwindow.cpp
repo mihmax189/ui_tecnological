@@ -90,3 +90,10 @@ void MainWindow::getDataForModel(quint16 *strobe_length, int regime) {
   if (regime == (regims - 1))
     strobeLengthModel->updateModelData(data);
 }
+
+void MainWindow::sendEndSession() {
+  // посылка кодограммы на сервер о конце работы сеанса прожига расстановок
+  Codograms::session_regimes_strobe buff;
+  buff.m.state = session_regimes_strobe__end;
+  marshalAndSend(buff, "193.1.1.64", 7251);
+}
