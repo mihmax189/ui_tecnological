@@ -808,6 +808,46 @@ int Is_session_regimes_and_strobes(void *buff, size_t size) {
 }
 
 
+int Marshal_progress_indicator_process_regimes_and_strobes(progress_indicator_process_regimes_and_strobes *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 244;
+  memcpy((uint8_t*)ch, c, 4);
+
+  return 0;
+}
+
+int Unmarshal_progress_indicator_process_regimes_and_strobes(progress_indicator_process_regimes_and_strobes *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  memcpy(c, ch, 4);
+
+  return 0;
+}
+
+
+int Is_progress_indicator_process_regimes_and_strobes(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+
+  if (ts == 244) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
 int Marshal_command_static_or_dynamic_work_mls(command_static_or_dynamic_work_mls *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 

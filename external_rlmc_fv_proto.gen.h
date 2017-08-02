@@ -380,6 +380,29 @@ int Unmarshal_session_regimes_and_strobes(session_regimes_and_strobes *c,
                                           const void *buff, size_t size);
 int Is_session_regimes_and_strobes(void *buff, size_t size);
 
+#define progress_indicator_process_regimes_and_strobes__BUFSIZE 4
+#define progress_indicator_process_regimes_and_strobes__TS 244
+#define progress_indicator_process_regimes_and_strobes__write 0
+#define progress_indicator_process_regimes_and_strobes__read 1
+#define progress_indicator_process_regimes_and_strobes__fire 2
+#define progress_indicator_process_regimes_and_strobes__none 3
+
+typedef struct progress_indicator_process_regimes_and_strobes {
+
+  uint8_t ist;      // 8 bits
+  uint8_t ts;       // 8 bits
+  uint8_t progress; // 8 bits
+  uint8_t process;  // 8 bits
+
+} __attribute__((packed)) progress_indicator_process_regimes_and_strobes;
+
+int Marshal_progress_indicator_process_regimes_and_strobes(
+    progress_indicator_process_regimes_and_strobes *c, void *buff, size_t size);
+int Unmarshal_progress_indicator_process_regimes_and_strobes(
+    progress_indicator_process_regimes_and_strobes *c, const void *buff,
+    size_t size);
+int Is_progress_indicator_process_regimes_and_strobes(void *buff, size_t size);
+
 #define command_static_or_dynamic_work_mls__BUFSIZE 4
 #define command_static_or_dynamic_work_mls__TS 244
 #define command_static_or_dynamic_work_mls__static 0

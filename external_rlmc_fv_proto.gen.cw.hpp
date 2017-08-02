@@ -252,6 +252,21 @@ public:
   static const size_t bufsize;
 };
 
+class progress_indicator_process_regimes_and_strobes : public Codogram {
+public:
+  progress_indicator_process_regimes_and_strobes();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::progress_indicator_process_regimes_and_strobes m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
 class command_static_or_dynamic_work_mls : public Codogram {
 public:
   command_static_or_dynamic_work_mls();

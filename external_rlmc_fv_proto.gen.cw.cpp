@@ -570,6 +570,52 @@ void Codograms::session_regimes_and_strobes::clearMessage() {
 
 int Codograms::session_regimes_and_strobes::msize() { return sizeof(m); }
 
+Codograms::progress_indicator_process_regimes_and_strobes::
+    progress_indicator_process_regimes_and_strobes() {
+  buf.fill(0, progress_indicator_process_regimes_and_strobes__BUFSIZE);
+  clearMessage();
+}
+
+const size_t
+    Codograms::progress_indicator_process_regimes_and_strobes::bufsize =
+        progress_indicator_process_regimes_and_strobes__BUFSIZE;
+
+bool Codograms::progress_indicator_process_regimes_and_strobes::marshal() {
+  if (Marshal_progress_indicator_process_regimes_and_strobes(&m, buf.data(),
+                                                             buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::progress_indicator_process_regimes_and_strobes::unmarshal() {
+  if (Unmarshal_progress_indicator_process_regimes_and_strobes(
+          &m, buf.constData(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::progress_indicator_process_regimes_and_strobes::checkBuf() {
+  if (Is_progress_indicator_process_regimes_and_strobes(buf.data(), buf.size()))
+    return true;
+  else
+    return false;
+}
+
+const QByteArray &
+Codograms::progress_indicator_process_regimes_and_strobes::getBuf() {
+  return buf;
+}
+
+void Codograms::progress_indicator_process_regimes_and_strobes::clearMessage() {
+  memset(&m, 0, sizeof(m));
+}
+
+int Codograms::progress_indicator_process_regimes_and_strobes::msize() {
+  return sizeof(m);
+}
+
 Codograms::command_static_or_dynamic_work_mls::
     command_static_or_dynamic_work_mls() {
   buf.fill(0, command_static_or_dynamic_work_mls__BUFSIZE);
