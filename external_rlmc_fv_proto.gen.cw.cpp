@@ -373,190 +373,324 @@ void Codograms::codes_phases_antPD::clearMessage() { memset(&m, 0, sizeof(m)); }
 
 int Codograms::codes_phases_antPD::msize() { return sizeof(m); }
 
-Codograms::send_regimes_strobe_data::send_regimes_strobe_data() {
-  buf.fill(0, send_regimes_strobe_data__BUFSIZE);
+Codograms::send_regimes_and_strobes_data::send_regimes_and_strobes_data() {
+  buf.fill(0, send_regimes_and_strobes_data__BUFSIZE);
   clearMessage();
 }
 
-const size_t Codograms::send_regimes_strobe_data::bufsize =
-    send_regimes_strobe_data__BUFSIZE;
+const size_t Codograms::send_regimes_and_strobes_data::bufsize =
+    send_regimes_and_strobes_data__BUFSIZE;
 
-bool Codograms::send_regimes_strobe_data::marshal() {
-  if (Marshal_send_regimes_strobe_data(&m, buf.data(), buf.size()))
+bool Codograms::send_regimes_and_strobes_data::marshal() {
+  if (Marshal_send_regimes_and_strobes_data(&m, buf.data(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::send_regimes_strobe_data::unmarshal() {
-  if (Unmarshal_send_regimes_strobe_data(&m, buf.constData(), buf.size()))
+bool Codograms::send_regimes_and_strobes_data::unmarshal() {
+  if (Unmarshal_send_regimes_and_strobes_data(&m, buf.constData(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::send_regimes_strobe_data::checkBuf() {
-  if (Is_send_regimes_strobe_data(buf.data(), buf.size()))
+bool Codograms::send_regimes_and_strobes_data::checkBuf() {
+  if (Is_send_regimes_and_strobes_data(buf.data(), buf.size()))
     return true;
   else
     return false;
 }
 
-const QByteArray &Codograms::send_regimes_strobe_data::getBuf() { return buf; }
+const QByteArray &Codograms::send_regimes_and_strobes_data::getBuf() {
+  return buf;
+}
 
-void Codograms::send_regimes_strobe_data::clearMessage() {
+void Codograms::send_regimes_and_strobes_data::clearMessage() {
   memset(&m, 0, sizeof(m));
 }
 
-int Codograms::send_regimes_strobe_data::msize() { return sizeof(m); }
+int Codograms::send_regimes_and_strobes_data::msize() { return sizeof(m); }
 
-Codograms::read_regimes_strobe_data::read_regimes_strobe_data() {
-  buf.fill(0, read_regimes_strobe_data__BUFSIZE);
+Codograms::read_regimes_and_strobes_data::read_regimes_and_strobes_data() {
+  buf.fill(0, read_regimes_and_strobes_data__BUFSIZE);
   clearMessage();
 }
 
-const size_t Codograms::read_regimes_strobe_data::bufsize =
-    read_regimes_strobe_data__BUFSIZE;
+const size_t Codograms::read_regimes_and_strobes_data::bufsize =
+    read_regimes_and_strobes_data__BUFSIZE;
 
-bool Codograms::read_regimes_strobe_data::marshal() {
-  if (Marshal_read_regimes_strobe_data(&m, buf.data(), buf.size()))
+bool Codograms::read_regimes_and_strobes_data::marshal() {
+  if (Marshal_read_regimes_and_strobes_data(&m, buf.data(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::read_regimes_strobe_data::unmarshal() {
-  if (Unmarshal_read_regimes_strobe_data(&m, buf.constData(), buf.size()))
+bool Codograms::read_regimes_and_strobes_data::unmarshal() {
+  if (Unmarshal_read_regimes_and_strobes_data(&m, buf.constData(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::read_regimes_strobe_data::checkBuf() {
-  if (Is_read_regimes_strobe_data(buf.data(), buf.size()))
+bool Codograms::read_regimes_and_strobes_data::checkBuf() {
+  if (Is_read_regimes_and_strobes_data(buf.data(), buf.size()))
     return true;
   else
     return false;
 }
 
-const QByteArray &Codograms::read_regimes_strobe_data::getBuf() { return buf; }
+const QByteArray &Codograms::read_regimes_and_strobes_data::getBuf() {
+  return buf;
+}
 
-void Codograms::read_regimes_strobe_data::clearMessage() {
+void Codograms::read_regimes_and_strobes_data::clearMessage() {
   memset(&m, 0, sizeof(m));
 }
 
-int Codograms::read_regimes_strobe_data::msize() { return sizeof(m); }
+int Codograms::read_regimes_and_strobes_data::msize() { return sizeof(m); }
 
-Codograms::regimes_strobe_request::regimes_strobe_request() {
-  buf.fill(0, regimes_strobe_request__BUFSIZE);
+Codograms::regimes_and_strobes_data_request::
+    regimes_and_strobes_data_request() {
+  buf.fill(0, regimes_and_strobes_data_request__BUFSIZE);
   clearMessage();
 }
 
-const size_t Codograms::regimes_strobe_request::bufsize =
-    regimes_strobe_request__BUFSIZE;
+const size_t Codograms::regimes_and_strobes_data_request::bufsize =
+    regimes_and_strobes_data_request__BUFSIZE;
 
-bool Codograms::regimes_strobe_request::marshal() {
-  if (Marshal_regimes_strobe_request(&m, buf.data(), buf.size()))
+bool Codograms::regimes_and_strobes_data_request::marshal() {
+  if (Marshal_regimes_and_strobes_data_request(&m, buf.data(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::regimes_strobe_request::unmarshal() {
-  if (Unmarshal_regimes_strobe_request(&m, buf.constData(), buf.size()))
+bool Codograms::regimes_and_strobes_data_request::unmarshal() {
+  if (Unmarshal_regimes_and_strobes_data_request(&m, buf.constData(),
+                                                 buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::regimes_strobe_request::checkBuf() {
-  if (Is_regimes_strobe_request(buf.data(), buf.size()))
+bool Codograms::regimes_and_strobes_data_request::checkBuf() {
+  if (Is_regimes_and_strobes_data_request(buf.data(), buf.size()))
     return true;
   else
     return false;
 }
 
-const QByteArray &Codograms::regimes_strobe_request::getBuf() { return buf; }
+const QByteArray &Codograms::regimes_and_strobes_data_request::getBuf() {
+  return buf;
+}
 
-void Codograms::regimes_strobe_request::clearMessage() {
+void Codograms::regimes_and_strobes_data_request::clearMessage() {
   memset(&m, 0, sizeof(m));
 }
 
-int Codograms::regimes_strobe_request::msize() { return sizeof(m); }
+int Codograms::regimes_and_strobes_data_request::msize() { return sizeof(m); }
 
-Codograms::fire_regimes_strobe::fire_regimes_strobe() {
-  buf.fill(0, fire_regimes_strobe__BUFSIZE);
+Codograms::fire_regimes_and_strobes_data::fire_regimes_and_strobes_data() {
+  buf.fill(0, fire_regimes_and_strobes_data__BUFSIZE);
   clearMessage();
 }
 
-const size_t Codograms::fire_regimes_strobe::bufsize =
-    fire_regimes_strobe__BUFSIZE;
+const size_t Codograms::fire_regimes_and_strobes_data::bufsize =
+    fire_regimes_and_strobes_data__BUFSIZE;
 
-bool Codograms::fire_regimes_strobe::marshal() {
-  if (Marshal_fire_regimes_strobe(&m, buf.data(), buf.size()))
+bool Codograms::fire_regimes_and_strobes_data::marshal() {
+  if (Marshal_fire_regimes_and_strobes_data(&m, buf.data(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::fire_regimes_strobe::unmarshal() {
-  if (Unmarshal_fire_regimes_strobe(&m, buf.constData(), buf.size()))
+bool Codograms::fire_regimes_and_strobes_data::unmarshal() {
+  if (Unmarshal_fire_regimes_and_strobes_data(&m, buf.constData(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::fire_regimes_strobe::checkBuf() {
-  if (Is_fire_regimes_strobe(buf.data(), buf.size()))
+bool Codograms::fire_regimes_and_strobes_data::checkBuf() {
+  if (Is_fire_regimes_and_strobes_data(buf.data(), buf.size()))
     return true;
   else
     return false;
 }
 
-const QByteArray &Codograms::fire_regimes_strobe::getBuf() { return buf; }
+const QByteArray &Codograms::fire_regimes_and_strobes_data::getBuf() {
+  return buf;
+}
 
-void Codograms::fire_regimes_strobe::clearMessage() {
+void Codograms::fire_regimes_and_strobes_data::clearMessage() {
   memset(&m, 0, sizeof(m));
 }
 
-int Codograms::fire_regimes_strobe::msize() { return sizeof(m); }
+int Codograms::fire_regimes_and_strobes_data::msize() { return sizeof(m); }
 
-Codograms::session_regimes_strobe::session_regimes_strobe() {
-  buf.fill(0, session_regimes_strobe__BUFSIZE);
+Codograms::session_regimes_and_strobes::session_regimes_and_strobes() {
+  buf.fill(0, session_regimes_and_strobes__BUFSIZE);
   clearMessage();
 }
 
-const size_t Codograms::session_regimes_strobe::bufsize =
-    session_regimes_strobe__BUFSIZE;
+const size_t Codograms::session_regimes_and_strobes::bufsize =
+    session_regimes_and_strobes__BUFSIZE;
 
-bool Codograms::session_regimes_strobe::marshal() {
-  if (Marshal_session_regimes_strobe(&m, buf.data(), buf.size()))
+bool Codograms::session_regimes_and_strobes::marshal() {
+  if (Marshal_session_regimes_and_strobes(&m, buf.data(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::session_regimes_strobe::unmarshal() {
-  if (Unmarshal_session_regimes_strobe(&m, buf.constData(), buf.size()))
+bool Codograms::session_regimes_and_strobes::unmarshal() {
+  if (Unmarshal_session_regimes_and_strobes(&m, buf.constData(), buf.size()))
     return false;
   else
     return true;
 }
 
-bool Codograms::session_regimes_strobe::checkBuf() {
-  if (Is_session_regimes_strobe(buf.data(), buf.size()))
+bool Codograms::session_regimes_and_strobes::checkBuf() {
+  if (Is_session_regimes_and_strobes(buf.data(), buf.size()))
     return true;
   else
     return false;
 }
 
-const QByteArray &Codograms::session_regimes_strobe::getBuf() { return buf; }
+const QByteArray &Codograms::session_regimes_and_strobes::getBuf() {
+  return buf;
+}
 
-void Codograms::session_regimes_strobe::clearMessage() {
+void Codograms::session_regimes_and_strobes::clearMessage() {
   memset(&m, 0, sizeof(m));
 }
 
-int Codograms::session_regimes_strobe::msize() { return sizeof(m); }
+int Codograms::session_regimes_and_strobes::msize() { return sizeof(m); }
+
+Codograms::command_static_or_dynamic_work_mls::
+    command_static_or_dynamic_work_mls() {
+  buf.fill(0, command_static_or_dynamic_work_mls__BUFSIZE);
+  clearMessage();
+}
+
+const size_t Codograms::command_static_or_dynamic_work_mls::bufsize =
+    command_static_or_dynamic_work_mls__BUFSIZE;
+
+bool Codograms::command_static_or_dynamic_work_mls::marshal() {
+  if (Marshal_command_static_or_dynamic_work_mls(&m, buf.data(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::command_static_or_dynamic_work_mls::unmarshal() {
+  if (Unmarshal_command_static_or_dynamic_work_mls(&m, buf.constData(),
+                                                   buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::command_static_or_dynamic_work_mls::checkBuf() {
+  if (Is_command_static_or_dynamic_work_mls(buf.data(), buf.size()))
+    return true;
+  else
+    return false;
+}
+
+const QByteArray &Codograms::command_static_or_dynamic_work_mls::getBuf() {
+  return buf;
+}
+
+void Codograms::command_static_or_dynamic_work_mls::clearMessage() {
+  memset(&m, 0, sizeof(m));
+}
+
+int Codograms::command_static_or_dynamic_work_mls::msize() { return sizeof(m); }
+
+Codograms::static_or_dynamic_work_mls_kvit::static_or_dynamic_work_mls_kvit() {
+  buf.fill(0, static_or_dynamic_work_mls_kvit__BUFSIZE);
+  clearMessage();
+}
+
+const size_t Codograms::static_or_dynamic_work_mls_kvit::bufsize =
+    static_or_dynamic_work_mls_kvit__BUFSIZE;
+
+bool Codograms::static_or_dynamic_work_mls_kvit::marshal() {
+  if (Marshal_static_or_dynamic_work_mls_kvit(&m, buf.data(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::static_or_dynamic_work_mls_kvit::unmarshal() {
+  if (Unmarshal_static_or_dynamic_work_mls_kvit(&m, buf.constData(),
+                                                buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::static_or_dynamic_work_mls_kvit::checkBuf() {
+  if (Is_static_or_dynamic_work_mls_kvit(buf.data(), buf.size()))
+    return true;
+  else
+    return false;
+}
+
+const QByteArray &Codograms::static_or_dynamic_work_mls_kvit::getBuf() {
+  return buf;
+}
+
+void Codograms::static_or_dynamic_work_mls_kvit::clearMessage() {
+  memset(&m, 0, sizeof(m));
+}
+
+int Codograms::static_or_dynamic_work_mls_kvit::msize() { return sizeof(m); }
+
+Codograms::static_or_dynamic_work_mls_request::
+    static_or_dynamic_work_mls_request() {
+  buf.fill(0, static_or_dynamic_work_mls_request__BUFSIZE);
+  clearMessage();
+}
+
+const size_t Codograms::static_or_dynamic_work_mls_request::bufsize =
+    static_or_dynamic_work_mls_request__BUFSIZE;
+
+bool Codograms::static_or_dynamic_work_mls_request::marshal() {
+  if (Marshal_static_or_dynamic_work_mls_request(&m, buf.data(), buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::static_or_dynamic_work_mls_request::unmarshal() {
+  if (Unmarshal_static_or_dynamic_work_mls_request(&m, buf.constData(),
+                                                   buf.size()))
+    return false;
+  else
+    return true;
+}
+
+bool Codograms::static_or_dynamic_work_mls_request::checkBuf() {
+  if (Is_static_or_dynamic_work_mls_request(buf.data(), buf.size()))
+    return true;
+  else
+    return false;
+}
+
+const QByteArray &Codograms::static_or_dynamic_work_mls_request::getBuf() {
+  return buf;
+}
+
+void Codograms::static_or_dynamic_work_mls_request::clearMessage() {
+  memset(&m, 0, sizeof(m));
+}
+
+int Codograms::static_or_dynamic_work_mls_request::msize() { return sizeof(m); }
 
 Codograms::turn_ant_on_reception::turn_ant_on_reception() {
   buf.fill(0, turn_ant_on_reception__BUFSIZE);

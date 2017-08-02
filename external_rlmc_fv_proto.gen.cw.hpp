@@ -177,9 +177,9 @@ public:
   static const size_t bufsize;
 };
 
-class send_regimes_strobe_data : public Codogram {
+class send_regimes_and_strobes_data : public Codogram {
 public:
-  send_regimes_strobe_data();
+  send_regimes_and_strobes_data();
   bool marshal();
   bool unmarshal();
   bool checkBuf();
@@ -187,14 +187,14 @@ public:
   void clearMessage();
   int msize();
 
-  ::send_regimes_strobe_data m;
+  ::send_regimes_and_strobes_data m;
   QByteArray buf;
   static const size_t bufsize;
 };
 
-class read_regimes_strobe_data : public Codogram {
+class read_regimes_and_strobes_data : public Codogram {
 public:
-  read_regimes_strobe_data();
+  read_regimes_and_strobes_data();
   bool marshal();
   bool unmarshal();
   bool checkBuf();
@@ -202,14 +202,14 @@ public:
   void clearMessage();
   int msize();
 
-  ::read_regimes_strobe_data m;
+  ::read_regimes_and_strobes_data m;
   QByteArray buf;
   static const size_t bufsize;
 };
 
-class regimes_strobe_request : public Codogram {
+class regimes_and_strobes_data_request : public Codogram {
 public:
-  regimes_strobe_request();
+  regimes_and_strobes_data_request();
   bool marshal();
   bool unmarshal();
   bool checkBuf();
@@ -217,14 +217,14 @@ public:
   void clearMessage();
   int msize();
 
-  ::regimes_strobe_request m;
+  ::regimes_and_strobes_data_request m;
   QByteArray buf;
   static const size_t bufsize;
 };
 
-class fire_regimes_strobe : public Codogram {
+class fire_regimes_and_strobes_data : public Codogram {
 public:
-  fire_regimes_strobe();
+  fire_regimes_and_strobes_data();
   bool marshal();
   bool unmarshal();
   bool checkBuf();
@@ -232,14 +232,14 @@ public:
   void clearMessage();
   int msize();
 
-  ::fire_regimes_strobe m;
+  ::fire_regimes_and_strobes_data m;
   QByteArray buf;
   static const size_t bufsize;
 };
 
-class session_regimes_strobe : public Codogram {
+class session_regimes_and_strobes : public Codogram {
 public:
-  session_regimes_strobe();
+  session_regimes_and_strobes();
   bool marshal();
   bool unmarshal();
   bool checkBuf();
@@ -247,7 +247,52 @@ public:
   void clearMessage();
   int msize();
 
-  ::session_regimes_strobe m;
+  ::session_regimes_and_strobes m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
+class command_static_or_dynamic_work_mls : public Codogram {
+public:
+  command_static_or_dynamic_work_mls();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::command_static_or_dynamic_work_mls m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
+class static_or_dynamic_work_mls_kvit : public Codogram {
+public:
+  static_or_dynamic_work_mls_kvit();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::static_or_dynamic_work_mls_kvit m;
+  QByteArray buf;
+  static const size_t bufsize;
+};
+
+class static_or_dynamic_work_mls_request : public Codogram {
+public:
+  static_or_dynamic_work_mls_request();
+  bool marshal();
+  bool unmarshal();
+  bool checkBuf();
+  const QByteArray& getBuf();
+  void clearMessage();
+  int msize();
+
+  ::static_or_dynamic_work_mls_request m;
   QByteArray buf;
   static const size_t bufsize;
 };

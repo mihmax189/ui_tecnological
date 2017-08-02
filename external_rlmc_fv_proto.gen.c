@@ -558,7 +558,7 @@ int Is_codes_phases_antPD(void *buff, size_t size) {
 }
 
 
-int Marshal_send_regimes_strobe_data(send_regimes_strobe_data *c, void *buff, size_t size) {
+int Marshal_send_regimes_and_strobes_data(send_regimes_and_strobes_data *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 
   if (size < 32 || buff == NULL) return -1;
@@ -579,7 +579,7 @@ int Marshal_send_regimes_strobe_data(send_regimes_strobe_data *c, void *buff, si
   return 0;
 }
 
-int Unmarshal_send_regimes_strobe_data(send_regimes_strobe_data *c, const void *buff, size_t size) {
+int Unmarshal_send_regimes_and_strobes_data(send_regimes_and_strobes_data *c, const void *buff, size_t size) {
   const uint8_t *ch = (uint8_t*)buff;
 
   if (size < 32 || buff == NULL) return -1;
@@ -600,7 +600,7 @@ int Unmarshal_send_regimes_strobe_data(send_regimes_strobe_data *c, const void *
 }
 
 
-int Is_send_regimes_strobe_data(void *buff, size_t size) {
+int Is_send_regimes_and_strobes_data(void *buff, size_t size) {
   uint8_t ts = 0;
   uint8_t *ch = (uint8_t*)buff;
 
@@ -616,7 +616,7 @@ int Is_send_regimes_strobe_data(void *buff, size_t size) {
 }
 
 
-int Marshal_read_regimes_strobe_data(read_regimes_strobe_data *c, void *buff, size_t size) {
+int Marshal_read_regimes_and_strobes_data(read_regimes_and_strobes_data *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 
   if (size < 32 || buff == NULL) return -1;
@@ -637,7 +637,7 @@ int Marshal_read_regimes_strobe_data(read_regimes_strobe_data *c, void *buff, si
   return 0;
 }
 
-int Unmarshal_read_regimes_strobe_data(read_regimes_strobe_data *c, const void *buff, size_t size) {
+int Unmarshal_read_regimes_and_strobes_data(read_regimes_and_strobes_data *c, const void *buff, size_t size) {
   const uint8_t *ch = (uint8_t*)buff;
 
   if (size < 32 || buff == NULL) return -1;
@@ -658,7 +658,7 @@ int Unmarshal_read_regimes_strobe_data(read_regimes_strobe_data *c, const void *
 }
 
 
-int Is_read_regimes_strobe_data(void *buff, size_t size) {
+int Is_read_regimes_and_strobes_data(void *buff, size_t size) {
   uint8_t ts = 0;
   uint8_t *ch = (uint8_t*)buff;
 
@@ -674,7 +674,7 @@ int Is_read_regimes_strobe_data(void *buff, size_t size) {
 }
 
 
-int Marshal_regimes_strobe_request(regimes_strobe_request *c, void *buff, size_t size) {
+int Marshal_regimes_and_strobes_data_request(regimes_and_strobes_data_request *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 
   if (size < 4 || buff == NULL) return -1;
@@ -688,7 +688,7 @@ int Marshal_regimes_strobe_request(regimes_strobe_request *c, void *buff, size_t
   return 0;
 }
 
-int Unmarshal_regimes_strobe_request(regimes_strobe_request *c, const void *buff, size_t size) {
+int Unmarshal_regimes_and_strobes_data_request(regimes_and_strobes_data_request *c, const void *buff, size_t size) {
   const uint8_t *ch = (uint8_t*)buff;
 
   if (size < 4 || buff == NULL) return -1;
@@ -701,7 +701,7 @@ int Unmarshal_regimes_strobe_request(regimes_strobe_request *c, const void *buff
 }
 
 
-int Is_regimes_strobe_request(void *buff, size_t size) {
+int Is_regimes_and_strobes_data_request(void *buff, size_t size) {
   uint8_t ts = 0;
   uint16_t request = 0;
   uint8_t *ch = (uint8_t*)buff;
@@ -720,7 +720,7 @@ int Is_regimes_strobe_request(void *buff, size_t size) {
 }
 
 
-int Marshal_fire_regimes_strobe(fire_regimes_strobe *c, void *buff, size_t size) {
+int Marshal_fire_regimes_and_strobes_data(fire_regimes_and_strobes_data *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 
   if (size < 4 || buff == NULL) return -1;
@@ -734,7 +734,7 @@ int Marshal_fire_regimes_strobe(fire_regimes_strobe *c, void *buff, size_t size)
   return 0;
 }
 
-int Unmarshal_fire_regimes_strobe(fire_regimes_strobe *c, const void *buff, size_t size) {
+int Unmarshal_fire_regimes_and_strobes_data(fire_regimes_and_strobes_data *c, const void *buff, size_t size) {
   const uint8_t *ch = (uint8_t*)buff;
 
   if (size < 4 || buff == NULL) return -1;
@@ -747,7 +747,7 @@ int Unmarshal_fire_regimes_strobe(fire_regimes_strobe *c, const void *buff, size
 }
 
 
-int Is_fire_regimes_strobe(void *buff, size_t size) {
+int Is_fire_regimes_and_strobes_data(void *buff, size_t size) {
   uint8_t ts = 0;
   uint16_t fire = 0;
   uint8_t *ch = (uint8_t*)buff;
@@ -766,7 +766,7 @@ int Is_fire_regimes_strobe(void *buff, size_t size) {
 }
 
 
-int Marshal_session_regimes_strobe(session_regimes_strobe *c, void *buff, size_t size) {
+int Marshal_session_regimes_and_strobes(session_regimes_and_strobes *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 
   if (size < 4 || buff == NULL) return -1;
@@ -779,7 +779,7 @@ int Marshal_session_regimes_strobe(session_regimes_strobe *c, void *buff, size_t
   return 0;
 }
 
-int Unmarshal_session_regimes_strobe(session_regimes_strobe *c, const void *buff, size_t size) {
+int Unmarshal_session_regimes_and_strobes(session_regimes_and_strobes *c, const void *buff, size_t size) {
   const uint8_t *ch = (uint8_t*)buff;
 
   if (size < 4 || buff == NULL) return -1;
@@ -792,7 +792,7 @@ int Unmarshal_session_regimes_strobe(session_regimes_strobe *c, const void *buff
 }
 
 
-int Is_session_regimes_strobe(void *buff, size_t size) {
+int Is_session_regimes_and_strobes(void *buff, size_t size) {
   uint8_t ts = 0;
   uint8_t *ch = (uint8_t*)buff;
 
@@ -801,6 +801,130 @@ int Is_session_regimes_strobe(void *buff, size_t size) {
   ts |= (ch[1]>>0)&MASK(7, 0);
 
   if (ts == 245) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
+int Marshal_command_static_or_dynamic_work_mls(command_static_or_dynamic_work_mls *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 244;
+  c->mode = htons(c->mode);
+  memcpy((uint8_t*)ch, c, 4);
+
+  return 0;
+}
+
+int Unmarshal_command_static_or_dynamic_work_mls(command_static_or_dynamic_work_mls *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  memcpy(c, ch, 4);
+  c->mode = ntohs(c->mode);
+
+  return 0;
+}
+
+
+int Is_command_static_or_dynamic_work_mls(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+
+  if (ts == 244) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
+int Marshal_static_or_dynamic_work_mls_kvit(static_or_dynamic_work_mls_kvit *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 243;
+  c->mode = htons(c->mode);
+  memcpy((uint8_t*)ch, c, 4);
+
+  return 0;
+}
+
+int Unmarshal_static_or_dynamic_work_mls_kvit(static_or_dynamic_work_mls_kvit *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  memcpy(c, ch, 4);
+  c->mode = ntohs(c->mode);
+
+  return 0;
+}
+
+
+int Is_static_or_dynamic_work_mls_kvit(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 4 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+
+  if (ts == 243) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
+
+int Marshal_static_or_dynamic_work_mls_request(static_or_dynamic_work_mls_request *c, void *buff, size_t size) {
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 2 || buff == NULL) return -1;
+
+  memset(buff, 0, size);
+  c->ts = 242;
+  memcpy((uint8_t*)ch, c, 2);
+
+  return 0;
+}
+
+int Unmarshal_static_or_dynamic_work_mls_request(static_or_dynamic_work_mls_request *c, const void *buff, size_t size) {
+  const uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 2 || buff == NULL) return -1;
+
+  memset(c, 0, sizeof(*c));
+  memcpy(c, ch, 2);
+
+  return 0;
+}
+
+
+int Is_static_or_dynamic_work_mls_request(void *buff, size_t size) {
+  uint8_t ts = 0;
+  uint8_t *ch = (uint8_t*)buff;
+
+  if (size < 2 || buff == NULL) return 0;
+
+  ts |= (ch[1]>>0)&MASK(7, 0);
+
+  if (ts == 242) {
     return 1;
   } else {
     return 0;

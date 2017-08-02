@@ -283,33 +283,12 @@ int Unmarshal_codes_phases_antPD(codes_phases_antPD *c, const void *buff,
                                  size_t size);
 int Is_codes_phases_antPD(void *buff, size_t size);
 
-#define send_regimes_strobe_data__BUFSIZE 32
-#define send_regimes_strobe_data__TS 249
-#define send_regimes_strobe_data__strobe_length_in_cols_OFFSET 4
-#define send_regimes_strobe_data__strobe_length_in_cols_SIZE 28
+#define send_regimes_and_strobes_data__BUFSIZE 32
+#define send_regimes_and_strobes_data__TS 249
+#define send_regimes_and_strobes_data__strobe_length_in_cols_OFFSET 4
+#define send_regimes_and_strobes_data__strobe_length_in_cols_SIZE 28
 
-typedef struct send_regimes_strobe_data {
-
-  uint8_t ist;    // 8 bits
-  uint8_t ts;     // 8 bits
-  uint8_t regime; // 5 bits
-  uint8_t strobe; // 4 bits
-  uint16_t strobe_length_in_cols[14];
-
-} send_regimes_strobe_data;
-
-int Marshal_send_regimes_strobe_data(send_regimes_strobe_data *c, void *buff,
-                                     size_t size);
-int Unmarshal_send_regimes_strobe_data(send_regimes_strobe_data *c,
-                                       const void *buff, size_t size);
-int Is_send_regimes_strobe_data(void *buff, size_t size);
-
-#define read_regimes_strobe_data__BUFSIZE 32
-#define read_regimes_strobe_data__TS 248
-#define read_regimes_strobe_data__strobe_length_in_cols_OFFSET 4
-#define read_regimes_strobe_data__strobe_length_in_cols_SIZE 28
-
-typedef struct read_regimes_strobe_data {
+typedef struct send_regimes_and_strobes_data {
 
   uint8_t ist;    // 8 bits
   uint8_t ts;     // 8 bits
@@ -317,68 +296,141 @@ typedef struct read_regimes_strobe_data {
   uint8_t strobe; // 4 bits
   uint16_t strobe_length_in_cols[14];
 
-} read_regimes_strobe_data;
+} send_regimes_and_strobes_data;
 
-int Marshal_read_regimes_strobe_data(read_regimes_strobe_data *c, void *buff,
-                                     size_t size);
-int Unmarshal_read_regimes_strobe_data(read_regimes_strobe_data *c,
-                                       const void *buff, size_t size);
-int Is_read_regimes_strobe_data(void *buff, size_t size);
+int Marshal_send_regimes_and_strobes_data(send_regimes_and_strobes_data *c,
+                                          void *buff, size_t size);
+int Unmarshal_send_regimes_and_strobes_data(send_regimes_and_strobes_data *c,
+                                            const void *buff, size_t size);
+int Is_send_regimes_and_strobes_data(void *buff, size_t size);
 
-#define regimes_strobe_request__BUFSIZE 4
-#define regimes_strobe_request__TS 247
-#define regimes_strobe_request__REQUEST 1
+#define read_regimes_and_strobes_data__BUFSIZE 32
+#define read_regimes_and_strobes_data__TS 248
+#define read_regimes_and_strobes_data__strobe_length_in_cols_OFFSET 4
+#define read_regimes_and_strobes_data__strobe_length_in_cols_SIZE 28
 
-typedef struct regimes_strobe_request {
+typedef struct read_regimes_and_strobes_data {
+
+  uint8_t ist;    // 8 bits
+  uint8_t ts;     // 8 bits
+  uint8_t regime; // 5 bits
+  uint8_t strobe; // 4 bits
+  uint16_t strobe_length_in_cols[14];
+
+} read_regimes_and_strobes_data;
+
+int Marshal_read_regimes_and_strobes_data(read_regimes_and_strobes_data *c,
+                                          void *buff, size_t size);
+int Unmarshal_read_regimes_and_strobes_data(read_regimes_and_strobes_data *c,
+                                            const void *buff, size_t size);
+int Is_read_regimes_and_strobes_data(void *buff, size_t size);
+
+#define regimes_and_strobes_data_request__BUFSIZE 4
+#define regimes_and_strobes_data_request__TS 247
+#define regimes_and_strobes_data_request__REQUEST 1
+
+typedef struct regimes_and_strobes_data_request {
 
   uint8_t ist;      // 8 bits
   uint8_t ts;       // 8 bits
   uint16_t request; // 16 bits
 
-} __attribute__((packed)) regimes_strobe_request;
+} __attribute__((packed)) regimes_and_strobes_data_request;
 
-int Marshal_regimes_strobe_request(regimes_strobe_request *c, void *buff,
-                                   size_t size);
-int Unmarshal_regimes_strobe_request(regimes_strobe_request *c,
-                                     const void *buff, size_t size);
-int Is_regimes_strobe_request(void *buff, size_t size);
+int Marshal_regimes_and_strobes_data_request(
+    regimes_and_strobes_data_request *c, void *buff, size_t size);
+int Unmarshal_regimes_and_strobes_data_request(
+    regimes_and_strobes_data_request *c, const void *buff, size_t size);
+int Is_regimes_and_strobes_data_request(void *buff, size_t size);
 
-#define fire_regimes_strobe__BUFSIZE 4
-#define fire_regimes_strobe__TS 246
-#define fire_regimes_strobe__FIRE 1
+#define fire_regimes_and_strobes_data__BUFSIZE 4
+#define fire_regimes_and_strobes_data__TS 246
+#define fire_regimes_and_strobes_data__FIRE 1
 
-typedef struct fire_regimes_strobe {
+typedef struct fire_regimes_and_strobes_data {
 
   uint8_t ist;   // 8 bits
   uint8_t ts;    // 8 bits
   uint16_t fire; // 16 bits
 
-} __attribute__((packed)) fire_regimes_strobe;
+} __attribute__((packed)) fire_regimes_and_strobes_data;
 
-int Marshal_fire_regimes_strobe(fire_regimes_strobe *c, void *buff,
-                                size_t size);
-int Unmarshal_fire_regimes_strobe(fire_regimes_strobe *c, const void *buff,
-                                  size_t size);
-int Is_fire_regimes_strobe(void *buff, size_t size);
+int Marshal_fire_regimes_and_strobes_data(fire_regimes_and_strobes_data *c,
+                                          void *buff, size_t size);
+int Unmarshal_fire_regimes_and_strobes_data(fire_regimes_and_strobes_data *c,
+                                            const void *buff, size_t size);
+int Is_fire_regimes_and_strobes_data(void *buff, size_t size);
 
-#define session_regimes_strobe__BUFSIZE 4
-#define session_regimes_strobe__TS 245
-#define session_regimes_strobe__end 0
-#define session_regimes_strobe__begin 1
+#define session_regimes_and_strobes__BUFSIZE 4
+#define session_regimes_and_strobes__TS 245
+#define session_regimes_and_strobes__end 0
+#define session_regimes_and_strobes__begin 1
 
-typedef struct session_regimes_strobe {
+typedef struct session_regimes_and_strobes {
 
   uint8_t ist;    // 8 bits
   uint8_t ts;     // 8 bits
   uint16_t state; // 16 bits
 
-} __attribute__((packed)) session_regimes_strobe;
+} __attribute__((packed)) session_regimes_and_strobes;
 
-int Marshal_session_regimes_strobe(session_regimes_strobe *c, void *buff,
-                                   size_t size);
-int Unmarshal_session_regimes_strobe(session_regimes_strobe *c,
-                                     const void *buff, size_t size);
-int Is_session_regimes_strobe(void *buff, size_t size);
+int Marshal_session_regimes_and_strobes(session_regimes_and_strobes *c,
+                                        void *buff, size_t size);
+int Unmarshal_session_regimes_and_strobes(session_regimes_and_strobes *c,
+                                          const void *buff, size_t size);
+int Is_session_regimes_and_strobes(void *buff, size_t size);
+
+#define command_static_or_dynamic_work_mls__BUFSIZE 4
+#define command_static_or_dynamic_work_mls__TS 244
+#define command_static_or_dynamic_work_mls__static 0
+#define command_static_or_dynamic_work_mls__dynamic 1
+
+typedef struct command_static_or_dynamic_work_mls {
+
+  uint8_t ist;   // 8 bits
+  uint8_t ts;    // 8 bits
+  uint16_t mode; // 16 bits
+
+} __attribute__((packed)) command_static_or_dynamic_work_mls;
+
+int Marshal_command_static_or_dynamic_work_mls(
+    command_static_or_dynamic_work_mls *c, void *buff, size_t size);
+int Unmarshal_command_static_or_dynamic_work_mls(
+    command_static_or_dynamic_work_mls *c, const void *buff, size_t size);
+int Is_command_static_or_dynamic_work_mls(void *buff, size_t size);
+
+#define static_or_dynamic_work_mls_kvit__BUFSIZE 4
+#define static_or_dynamic_work_mls_kvit__TS 243
+
+typedef struct static_or_dynamic_work_mls_kvit {
+
+  uint8_t ist;   // 8 bits
+  uint8_t ts;    // 8 bits
+  uint16_t mode; // 16 bits
+
+} __attribute__((packed)) static_or_dynamic_work_mls_kvit;
+
+int Marshal_static_or_dynamic_work_mls_kvit(static_or_dynamic_work_mls_kvit *c,
+                                            void *buff, size_t size);
+int Unmarshal_static_or_dynamic_work_mls_kvit(
+    static_or_dynamic_work_mls_kvit *c, const void *buff, size_t size);
+int Is_static_or_dynamic_work_mls_kvit(void *buff, size_t size);
+
+#define static_or_dynamic_work_mls_request__BUFSIZE 2
+#define static_or_dynamic_work_mls_request__TS 242
+
+typedef struct static_or_dynamic_work_mls_request {
+
+  uint8_t ist; // 8 bits
+  uint8_t ts;  // 8 bits
+
+} __attribute__((packed)) static_or_dynamic_work_mls_request;
+
+int Marshal_static_or_dynamic_work_mls_request(
+    static_or_dynamic_work_mls_request *c, void *buff, size_t size);
+int Unmarshal_static_or_dynamic_work_mls_request(
+    static_or_dynamic_work_mls_request *c, const void *buff, size_t size);
+int Is_static_or_dynamic_work_mls_request(void *buff, size_t size);
 
 #define turn_ant_on_reception__BUFSIZE 4
 #define turn_ant_on_reception__TS 15
