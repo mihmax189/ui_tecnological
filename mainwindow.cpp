@@ -27,8 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
           SLOT(fireButtonSlot(bool)));
 
   // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
-  Codograms::session_regimes_strobe buff;
-  buff.m.state = session_regimes_strobe__begin;
+  Codograms::session_regimes_and_strobes buff;
+  buff.m.state = session_regimes_and_strobes__begin;
   marshalAndSend(buff, "193.1.1.64", 7251);
 }
 
@@ -45,7 +45,7 @@ void MainWindow::sendButtonSlot(bool) {
   quint16 data[regims][strobs];
   strobeLengthModel->getModelData(data);
 
-  Codograms::send_regimes_strobe_data buff;
+  Codograms::send_regimes_and_strobes_data buff;
   for (int _regime = 0; _regime < regims; ++_regime) {
     for (int _strobe = 0; _strobe < strobs; ++_strobe) {
       buff.m.strobe_length_in_cols[_strobe] = data[_regime][_strobe];
@@ -56,26 +56,26 @@ void MainWindow::sendButtonSlot(bool) {
 }
 
 void MainWindow::readButtonSlot(bool) {
-  Codograms::regimes_strobe_request buff;
+  Codograms::regimes_and_strobes_data_request buff;
   // послать запрос на сервер: выдать засланные данные на панель.
   marshalAndSend(buff, "193.1.1.64", 7251);
 }
 
 void MainWindow::fireButtonSlot(bool) {
-  Codograms::fire_regimes_strobe buff;
+  Codograms::fire_regimes_and_strobes_data buff;
   // послать на сервер команду прожечь модули данными по режимам и стробам
   marshalAndSend(buff, "193.1.1.64", 7251);
   strobeLengthModel->resetFlags();
 }
 
 void MainWindow::processReadData() {
-  Codograms::read_regimes_strobe_data buff;
+  Codograms::read_regimes_and_strobes_data buff;
 
   while (readSocket.hasPendingDatagrams()) {
     QByteArray resp(readSocket.pendingDatagramSize(), '\0');
     readSocket.readDatagram(resp.data(), resp.size());
 
-    if (Is_read_regimes_strobe_data(resp.data(), resp.size())) {
+    if (Is_read_regimes_and_strobes_data(resp.data(), resp.size())) {
       buff.buf = resp;
       buff.unmarshal();
       getDataForModel(buff.m.strobe_length_in_cols, buff.m.regime);
@@ -93,7 +93,7 @@ void MainWindow::getDataForModel(quint16 *strobe_length, int regime) {
 
 void MainWindow::sendEndSession() {
   // посылка кодограммы на сервер о конце работы сеанса прожига расстановок
-  Codograms::session_regimes_strobe buff;
-  buff.m.state = session_regimes_strobe__end;
+  Codograms::session_regimes_and_strobes buff;
+  buff.m.state = session_regimes_and_strobes__end;
   marshalAndSend(buff, "193.1.1.64", 7251);
 }
