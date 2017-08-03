@@ -89,9 +89,28 @@ void MainWindow::processReadData() {
       progress_buff.unmarshal();
       ui->progressBar->setValue(progress_buff.m.progress);
 
-      // блокируем кнопки ui пока сервер выполняет определенный процесс
+      // подсвечиваем кнопку ui пока сервер выполняет определенный процесс
       // (записи, чтения или прожига)
-      // if ()
+      switch (progress_buff.m.process) {
+      case progress_indicator_process_regimes_and_strobes__write:
+        setButtonToStateProcess(ui->sendButton);
+        break;
+
+      case progress_indicator_process_regimes_and_strobes__read:
+        setButtonToStateProcess(ui->readButton);
+        break;
+
+      case progress_indicator_process_regimes_and_strobes__fire:
+        setButtonToStateProcess(ui->fireButton);
+        break;
+
+      case progress_indicator_process_regimes_and_strobes__none:
+        setButtonsToRegularMode();
+        break;
+
+      default:
+        break;
+      }
     }
   }
 }
