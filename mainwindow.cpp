@@ -70,7 +70,7 @@ void MainWindow::fireButtonSlot(bool) {
 
 void MainWindow::processReadData() {
   Codograms::read_regimes_and_strobes_data buff;
-
+  Codograms::progress_indicator_process_regimes_and_strobes progress_buff;
   while (readSocket.hasPendingDatagrams()) {
     QByteArray resp(readSocket.pendingDatagramSize(), '\0');
     readSocket.readDatagram(resp.data(), resp.size());
@@ -79,6 +79,13 @@ void MainWindow::processReadData() {
       buff.buf = resp;
       buff.unmarshal();
       getDataForModel(buff.m.strobe_length_in_cols, buff.m.regime);
+    }
+
+    if (Is_progress_indicator_process_regimes_and_strobes(resp.data(),
+                                                          resp.size())) {
+      progress_buff.buf = resp;
+      progress_buff.unmarshal();
+      ui->progressBar->setValue(progress_buff.m.progress);
     }
   }
 }
