@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
   Codograms::session_regimes_and_strobes buff;
   buff.m.state = session_regimes_and_strobes__begin;
   marshalAndSend(buff, "193.1.1.64", 7251);
+
+  regPal = ui->sendButton->palette();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -86,6 +88,10 @@ void MainWindow::processReadData() {
       progress_buff.buf = resp;
       progress_buff.unmarshal();
       ui->progressBar->setValue(progress_buff.m.progress);
+
+      // блокируем кнопки ui пока сервер выполняет определенный процесс
+      // (записи, чтения или прожига)
+      // if ()
     }
   }
 }
@@ -103,4 +109,29 @@ void MainWindow::sendEndSession() {
   Codograms::session_regimes_and_strobes buff;
   buff.m.state = session_regimes_and_strobes__end;
   marshalAndSend(buff, "193.1.1.64", 7251);
+}
+
+void MainWindow::setButtonToStateProcess(QPushButton *bt) {
+  /**
+   * @brief pal
+   * Подсвечиваем синей рамкой кнопку, название которой соответсвует
+   * выполняемому процессу.
+   * В сервере предусмотрена страховка от включения другого процесса, пока
+   * выполняется
+   * определенный процесс.
+   */
+  QPalette pal = bt->palette();
+  pal.setColor(QPalette::Window, QColor(Qt::blue));
+  bt->setAutoFillBackground(true);
+  bt->setPalette(pal);
+  bt->update();
+}
+
+void MainWindow::setButtonsToRegularMode() {
+  ui->sendButton->setPalette(regPal);
+  ui->sendButton->update();
+  ui->readButton->setPalette(regPal);
+  ui->readButton->update();
+  ui->fireButton->setPalette(regPal);
+  ui->fireButton->update();
 }

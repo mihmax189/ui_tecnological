@@ -4,6 +4,8 @@
 #include "external_rlmc_fv_proto.gen.cw.hpp"
 #include "tablemodel.h"
 #include <QMainWindow>
+#include <QPalette>
+#include <QPushButton>
 #include <QUdpSocket>
 
 namespace Ui {
@@ -26,7 +28,11 @@ private:
   QUdpSocket readSocket;
   void marshalAndSend(Codograms::Codogram &cdg, const QString &addr,
                       quint16 port);
+  QPalette regPal;
   void getDataForModel(quint16 *strobe_length, int regime);
+  void setButtonToStateProcess(QPushButton *bt);
+  void setButtonsToRegularMode();
+
 private slots:
   void sendButtonSlot(bool);
   void readButtonSlot(bool);
