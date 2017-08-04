@@ -50,6 +50,9 @@
           <property name="title">
            <string>Записанные данные</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <widget class="QLabel" name="label">
@@ -104,6 +107,9 @@
           <property name="title">
            <string>Считанные данные</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
             <widget class="QLabel" name="label_3">
@@ -146,6 +152,39 @@
            </item>
           </layout>
          </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QProgressBar" name="progressBar">
+          <property name="value">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
