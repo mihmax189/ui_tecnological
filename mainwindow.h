@@ -22,7 +22,8 @@ public:
 private:
   Ui::MainWindow *ui;
 
-  StrobeLengthModel *strobeLengthModel;
+  StrobeLengthWriteModel *strobeLengthWriteModel;
+  StrobeLengthReadModel *strobeLengthReadModel;
 
   QUdpSocket sendSocket;
   QUdpSocket readSocket;

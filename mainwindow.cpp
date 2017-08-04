@@ -1,17 +1,26 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QComboBox>
 #include <QDebug>
+#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  strobeLengthModel = new StrobeLengthModel(this);
-  ui->strobeLengthTableView->setModel(strobeLengthModel);
-  ui->strobeLengthTableView->horizontalHeader()->setSectionResizeMode(
+  strobeLengthWriteModel = new StrobeLengthWriteModel(this);
+  ui->writeTableView->setModel(strobeLengthWriteModel);
+  ui->writeTableView->horizontalHeader()->setSectionResizeMode(
       QHeaderView::Stretch);
-  ui->strobeLengthTableView->verticalHeader()->setSectionResizeMode(
+  ui->writeTableView->verticalHeader()->setSectionResizeMode(
+      QHeaderView::Stretch);
+
+  strobeLengthReadModel = new StrobeLengthReadModel(this);
+  ui->readTableView->setModel(strobeLengthReadModel);
+  ui->readTableView->horizontalHeader()->setSectionResizeMode(
+      QHeaderView::Stretch);
+  ui->readTableView->verticalHeader()->setSectionResizeMode(
       QHeaderView::Stretch);
 
   if (!readSocket.bind(7252, QUdpSocket::ShareAddress))
@@ -31,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent)
   buff.m.state = session_regimes_and_strobes__begin;
   marshalAndSend(buff, "193.1.1.64", 7251);
 
-  regPal = ui->sendButton->palette();
+  setButtonsToRegularMode();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -45,7 +54,7 @@ void MainWindow::marshalAndSend(Codograms::Codogram &cdg, const QString &addr,
 
 void MainWindow::sendButtonSlot(bool) {
   quint16 data[regims][strobs];
-  strobeLengthModel->getModelData(data);
+  strobeLengthWriteModel->getModelData(data);
 
   Codograms::send_regimes_and_strobes_data buff;
   for (int _regime = 0; _regime < regims; ++_regime) {
@@ -55,24 +64,29 @@ void MainWindow::sendButtonSlot(bool) {
     buff.m.regime = _regime;
     marshalAndSend(buff, "193.1.1.64", 7251);
   }
+  // И передать эти данные в модель strobeLengthReadModel для последующего
+  // их сравнения с считанными данными
+  strobeLengthReadModel->setModelDataForCompare(data);
 }
 
 void MainWindow::readButtonSlot(bool) {
   Codograms::regimes_and_strobes_data_request buff;
   // послать запрос на сервер: выдать засланные данные на панель.
   marshalAndSend(buff, "193.1.1.64", 7251);
+  // и сбрасываем флаги предыдущего сравнения с считанными данными.
+  strobeLengthReadModel->resetFlags();
 }
 
 void MainWindow::fireButtonSlot(bool) {
   Codograms::fire_regimes_and_strobes_data buff;
   // послать на сервер команду прожечь модули данными по режимам и стробам
   marshalAndSend(buff, "193.1.1.64", 7251);
-  strobeLengthModel->resetFlags();
 }
 
 void MainWindow::processReadData() {
   Codograms::read_regimes_and_strobes_data buff;
   Codograms::progress_indicator_process_regimes_and_strobes progress_buff;
+
   while (readSocket.hasPendingDatagrams()) {
     QByteArray resp(readSocket.pendingDatagramSize(), '\0');
     readSocket.readDatagram(resp.data(), resp.size());
@@ -120,7 +134,7 @@ void MainWindow::getDataForModel(quint16 *strobe_length, int regime) {
   for (int _strobe = 0; _strobe < strobs; ++_strobe)
     data[regime][_strobe] = strobe_length[_strobe];
   if (regime == (regims - 1))
-    strobeLengthModel->updateModelData(data);
+    strobeLengthReadModel->updateModelData(data);
 }
 
 void MainWindow::sendEndSession() {
@@ -140,17 +154,28 @@ void MainWindow::setButtonToStateProcess(QPushButton *bt) {
    * определенный процесс.
    */
   QPalette pal = bt->palette();
-  pal.setColor(QPalette::Window, QColor(Qt::blue));
+  pal.setColor(QPalette::Window, QColor(Qt::green));
   bt->setAutoFillBackground(true);
   bt->setPalette(pal);
   bt->update();
 }
 
 void MainWindow::setButtonsToRegularMode() {
-  ui->sendButton->setPalette(regPal);
+  QPalette pal = ui->sendButton->palette();
+  pal.setColor(QPalette::Window, QColor(Qt::blue));
+  ui->sendButton->setAutoFillBackground(true);
+  ui->sendButton->setPalette(pal);
   ui->sendButton->update();
-  ui->readButton->setPalette(regPal);
+
+  pal = ui->readButton->palette();
+  pal.setColor(QPalette::Window, QColor(Qt::blue));
+  ui->readButton->setAutoFillBackground(true);
+  ui->readButton->setPalette(pal);
   ui->readButton->update();
-  ui->fireButton->setPalette(regPal);
+
+  pal = ui->sendButton->palette();
+  pal.setColor(QPalette::Window, QColor(Qt::blue));
+  ui->fireButton->setAutoFillBackground(true);
+  ui->fireButton->setPalette(pal);
   ui->fireButton->update();
 }
