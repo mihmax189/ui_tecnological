@@ -37,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
 
   connect(ui->regimeComboBox, SIGNAL(activated(int)), this,
           SLOT(setItemsForNumberFragmentComboBox(int)));
+  connect(ui->regimeComboBox, SIGNAL(activated(int)), this,
+          SLOT(setItemsForNumberModuleComboBox(int)));
+
   // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
   Codograms::session_regimes_and_strobes buff;
   buff.m.state = session_regimes_and_strobes__begin;
@@ -232,6 +235,100 @@ void MainWindow::setItemsForNumberFragmentComboBox(int index) {
 
   case regime_key_fap_request__kk:
     ui->numberFragmentComboBox->addItems(itemsForNumberFragmentKK);
+    break;
+  }
+}
+
+void MainWindow::setItemsForNumberModuleComboBox(int index) {
+  /*
+   * В зависимости от выбранного значения в numberRegimeComboBox выставляемм
+   * разные
+   * значения в numberModuleComboBox
+   * */
+
+  QStringList itemsForNumberModulePR, itemsForNumberModulePD,
+      itemsForNumberModuleKK;
+
+  itemsForNumberModulePR << "1"
+                         << "2"
+                         << "3"
+                         << "4"
+                         << "5"
+                         << "6"
+                         << "7"
+                         << "8"
+                         << "9"
+                         << "10"
+                         << "11"
+                         << "12"
+                         << "13"
+                         << "14"
+                         << "15"
+                         << "16"
+                         << "17"
+                         << "18"
+                         << "19"
+                         << "20"
+                         << "21"
+                         << "22"
+                         << "23"
+                         << "24"
+                         << "25"
+                         << "26"
+                         << "27"
+                         << "28"
+                         << "29"
+                         << "30"
+                         << "31"
+                         << "32"
+                         << "33"
+                         << "34"
+                         << "35"
+                         << "36"
+                         << "37"
+                         << "38"
+                         << "39"
+                         << "40"
+                         << "41"
+                         << "42"
+                         << "43"
+                         << "44"
+                         << "45"
+                         << "46"
+                         << "47"
+                         << "48"
+                         << "49"
+                         << "50"
+                         << "51"
+                         << "52"
+                         << "53"
+                         << "54";
+
+  itemsForNumberModulePD << "1"
+                         << "2"
+                         << "3"
+                         << "4"
+                         << "5"
+                         << "6"
+                         << "7"
+                         << "8";
+
+  itemsForNumberModuleKK << "1"
+                         << "2";
+
+  ui->numberModuleComboBox->clear();
+
+  switch (index) {
+  case regime_key_fap_request__pr:
+    ui->numberModuleComboBox->addItems(itemsForNumberModulePR);
+    break;
+
+  case regime_key_fap_request__pd:
+    ui->numberModuleComboBox->addItems(itemsForNumberModulePD);
+    break;
+
+  case regime_key_fap_request__kk:
+    ui->numberModuleComboBox->addItems(itemsForNumberModuleKK);
     break;
   }
 }

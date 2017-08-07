@@ -40,6 +40,7 @@ private slots:
   void fireButtonSlot(bool);
   void processReadData();
   void setItemsForNumberFragmentComboBox(int);
+  void setItemsForNumberModuleComboBox(int);
 
 public slots:
   void sendEndSession();
