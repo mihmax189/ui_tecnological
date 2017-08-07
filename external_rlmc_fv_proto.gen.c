@@ -677,13 +677,12 @@ int Is_read_regimes_and_strobes_data(void *buff, size_t size) {
 int Marshal_regimes_and_strobes_data_request(regimes_and_strobes_data_request *c, void *buff, size_t size) {
   uint8_t *ch = (uint8_t*)buff;
 
-  if (size < 4 || buff == NULL) return -1;
+  if (size < 6 || buff == NULL) return -1;
 
   memset(buff, 0, size);
   c->ts = 247;
   c->request = 1;
-  c->request = htons(c->request);
-  memcpy((uint8_t*)ch, c, 4);
+  memcpy((uint8_t*)ch, c, 6);
 
   return 0;
 }
@@ -691,11 +690,10 @@ int Marshal_regimes_and_strobes_data_request(regimes_and_strobes_data_request *c
 int Unmarshal_regimes_and_strobes_data_request(regimes_and_strobes_data_request *c, const void *buff, size_t size) {
   const uint8_t *ch = (uint8_t*)buff;
 
-  if (size < 4 || buff == NULL) return -1;
+  if (size < 6 || buff == NULL) return -1;
 
   memset(c, 0, sizeof(*c));
-  memcpy(c, ch, 4);
-  c->request = ntohs(c->request);
+  memcpy(c, ch, 6);
 
   return 0;
 }
@@ -703,14 +701,13 @@ int Unmarshal_regimes_and_strobes_data_request(regimes_and_strobes_data_request 
 
 int Is_regimes_and_strobes_data_request(void *buff, size_t size) {
   uint8_t ts = 0;
-  uint16_t request = 0;
+  uint8_t request = 0;
   uint8_t *ch = (uint8_t*)buff;
 
-  if (size < 4 || buff == NULL) return 0;
+  if (size < 6 || buff == NULL) return 0;
 
   ts |= (ch[1]>>0)&MASK(7, 0);
-  request |= (ch[2]<<8)&MASK(15, 8);
-  request |= (ch[3]>>0)&MASK(7, 0);
+  request |= (ch[2]>>0)&MASK(7, 0);
 
   if (ts == 247 && request == 1) {
     return 1;

@@ -325,15 +325,21 @@ int Unmarshal_read_regimes_and_strobes_data(read_regimes_and_strobes_data *c,
                                             const void *buff, size_t size);
 int Is_read_regimes_and_strobes_data(void *buff, size_t size);
 
-#define regimes_and_strobes_data_request__BUFSIZE 4
+#define regimes_and_strobes_data_request__BUFSIZE 6
 #define regimes_and_strobes_data_request__TS 247
 #define regimes_and_strobes_data_request__REQUEST 1
+#define regimes_and_strobes_data_request__PR 0
+#define regimes_and_strobes_data_request__PD 1
+#define regimes_and_strobes_data_request__KK 2
 
 typedef struct regimes_and_strobes_data_request {
 
-  uint8_t ist;      // 8 bits
-  uint8_t ts;       // 8 bits
-  uint16_t request; // 16 bits
+  uint8_t ist;             // 8 bits
+  uint8_t ts;              // 8 bits
+  uint8_t request;         // 8 bits
+  uint8_t regime;          // 8 bits
+  uint8_t number_fragment; // 8 bits
+  uint8_t number_module;   // 8 bits
 
 } __attribute__((packed)) regimes_and_strobes_data_request;
 
