@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->fireButton, SIGNAL(clicked(bool)), this,
           SLOT(fireButtonSlot(bool)));
 
+  connect(ui->regimeComboBox, SIGNAL(activated(int)), this,
+          SLOT(setItemsForNumberFragmentComboBox(int)));
   // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
   Codograms::session_regimes_and_strobes buff;
   buff.m.state = session_regimes_and_strobes__begin;
@@ -178,4 +180,58 @@ void MainWindow::setButtonsToRegularMode() {
   ui->fireButton->setAutoFillBackground(true);
   ui->fireButton->setPalette(pal);
   ui->fireButton->update();
+}
+
+void MainWindow::setItemsForNumberFragmentComboBox(int index) {
+  /**
+    В зависимости от выбранного значения в regimeComboBox отображаем разные
+    значения
+    в numberFragmentComboBox
+    */
+  QStringList itemsForNumberFragmentPR, itemsForNumberFragmentPD,
+      itemsForNumberFragmentKK;
+  itemsForNumberFragmentPR << "1"
+                           << "2"
+                           << "3"
+                           << "4"
+                           << "5"
+                           << "6"
+                           << "7"
+                           << "8"
+                           << "9"
+                           << "10"
+                           << "11"
+                           << "12"
+                           << "13"
+                           << "14"
+                           << "15"
+                           << "16";
+
+  itemsForNumberFragmentPD << "1"
+                           << "2"
+                           << "3";
+
+  itemsForNumberFragmentKK << "1"
+                           << "2"
+                           << "3"
+                           << "4"
+                           << "5"
+                           << "6"
+                           << "7"
+                           << "8";
+
+  ui->numberFragmentComboBox->clear();
+  switch (index) {
+  case regime_key_fap_request__pr:
+    ui->numberFragmentComboBox->addItems(itemsForNumberFragmentPR);
+    break;
+
+  case regime_key_fap_request__pd:
+    ui->numberFragmentComboBox->addItems(itemsForNumberFragmentPD);
+    break;
+
+  case regime_key_fap_request__kk:
+    ui->numberFragmentComboBox->addItems(itemsForNumberFragmentKK);
+    break;
+  }
 }

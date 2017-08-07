@@ -39,6 +39,7 @@ private slots:
   void readButtonSlot(bool);
   void fireButtonSlot(bool);
   void processReadData();
+  void setItemsForNumberFragmentComboBox(int);
 
 public slots:
   void sendEndSession();
