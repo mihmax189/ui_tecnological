@@ -76,10 +76,35 @@ void MainWindow::sendButtonSlot(bool) {
 
 void MainWindow::readButtonSlot(bool) {
   Codograms::regimes_and_strobes_data_request buff;
+
+  // запросить данные по текущему режиму
+  switch (ui->regimeComboBox->currentIndex()) {
+  case regimes_and_strobes_data_request__PR:
+    buff.m.regime = regimes_and_strobes_data_request__PR;
+    break;
+
+  case regimes_and_strobes_data_request__PD:
+    buff.m.regime = regimes_and_strobes_data_request__PD;
+    break;
+
+  case regimes_and_strobes_data_request__KK:
+    buff.m.regime = regimes_and_strobes_data_request__KK;
+    break;
+
+  default:
+    break;
+  }
+
+  // запросить данные по заданному фрагменту
+  buff.m.number_fragment = ui->numberFragmentComboBox->currentIndex();
+  // запросить данные по заданному модулю во фрагменте
+  buff.m.number_module = ui->numberModuleComboBox->currentIndex();
+
   // послать запрос на сервер: выдать засланные данные на панель.
   marshalAndSend(buff, "193.1.1.64", 7251);
-  // и сбрасываем флаги предыдущего сравнения с считанными данными.
-  strobeLengthReadModel->resetFlags();
+  // и сбрасываем флаги предыдущего сравнения с считанными данными. ??? надо
+  // подумать где сбрасывать флаги
+  // strobeLengthReadModel->resetFlags();
 }
 
 void MainWindow::fireButtonSlot(bool) {
