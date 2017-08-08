@@ -104,7 +104,7 @@ void MainWindow::readButtonSlot(bool) {
   marshalAndSend(buff, "193.1.1.64", 7251);
   // и сбрасываем флаги предыдущего сравнения с считанными данными. ??? надо
   // подумать где сбрасывать флаги
-  // strobeLengthReadModel->resetFlags();
+  strobeLengthReadModel->resetFlags();
 }
 
 void MainWindow::fireButtonSlot(bool) {
@@ -163,6 +163,7 @@ void MainWindow::getDataForModel(quint16 *strobe_length, int regime) {
   static quint16 data[regims][strobs];
   for (int _strobe = 0; _strobe < strobs; ++_strobe)
     data[regime][_strobe] = strobe_length[_strobe];
+
   if (regime == (regims - 1))
     strobeLengthReadModel->updateModelData(data);
 }
