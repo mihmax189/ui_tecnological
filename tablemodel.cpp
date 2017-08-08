@@ -263,11 +263,12 @@ void StrobeLengthReadModel::updateModelData(quint16 (*data)[strobs]) {
   /**
    * Получить данные от сервера и установить их в модель
    */
+
+  beginResetModel();
   for (int row = 0; row < _rows; ++row)
     for (int col = 0; col < _cols; ++col)
       _data[row][col] = data[row][col];
 
-  beginResetModel();
   compareData();
   endResetModel();
 }

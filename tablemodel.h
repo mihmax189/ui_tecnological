@@ -5,7 +5,7 @@
 #include <QTableView>
 
 const int strobs = 14;
-const int regims = 25;
+const int regims = 24;
 
 // Модель данных для засылки расстановок
 class StrobeLengthWriteModel : public QAbstractTableModel {
