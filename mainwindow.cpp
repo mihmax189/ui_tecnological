@@ -275,7 +275,7 @@ void MainWindow::setItemsForNumberModuleComboBox(int index) {
   QStringList itemsForNumberModulePR, itemsForNumberModulePD,
       itemsForNumberModuleKK;
 
-  itemsForNumberModulePR << "1"
+  itemsForNumberModulePD << "1"
                          << "2"
                          << "3"
                          << "4"
@@ -330,7 +330,7 @@ void MainWindow::setItemsForNumberModuleComboBox(int index) {
                          << "53"
                          << "54";
 
-  itemsForNumberModulePD << "1"
+  itemsForNumberModulePR << "1"
                          << "2"
                          << "3"
                          << "4"
