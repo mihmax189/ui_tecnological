@@ -124,6 +124,7 @@ void MainWindow::processReadData() {
     if (Is_read_regimes_and_strobes_data(resp.data(), resp.size())) {
       buff.buf = resp;
       buff.unmarshal();
+      ui->numberModuleLabel->setText(QString::number(buff.m.number_module));
       getDataForModel(buff.m.strobe_length_in_cols, buff.m.regime);
     }
 
