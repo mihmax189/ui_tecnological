@@ -304,17 +304,18 @@ int Unmarshal_send_regimes_and_strobes_data(send_regimes_and_strobes_data *c,
                                             const void *buff, size_t size);
 int Is_send_regimes_and_strobes_data(void *buff, size_t size);
 
-#define read_regimes_and_strobes_data__BUFSIZE 32
+#define read_regimes_and_strobes_data__BUFSIZE 34
 #define read_regimes_and_strobes_data__TS 248
-#define read_regimes_and_strobes_data__strobe_length_in_cols_OFFSET 4
+#define read_regimes_and_strobes_data__strobe_length_in_cols_OFFSET 6
 #define read_regimes_and_strobes_data__strobe_length_in_cols_SIZE 28
 
 typedef struct read_regimes_and_strobes_data {
 
-  uint8_t ist;    // 8 bits
-  uint8_t ts;     // 8 bits
-  uint8_t regime; // 5 bits
-  uint8_t strobe; // 4 bits
+  uint8_t ist;           // 8 bits
+  uint8_t ts;            // 8 bits
+  uint8_t regime;        // 5 bits
+  uint8_t strobe;        // 4 bits
+  uint8_t number_module; // 8 bits
   uint16_t strobe_length_in_cols[14];
 
 } read_regimes_and_strobes_data;
