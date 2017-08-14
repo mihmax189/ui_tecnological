@@ -42,6 +42,8 @@ private slots:
   void setItemsForNumberFragmentComboBox(int);
   void setItemsForNumberModuleComboBox(int);
   void copyDataButtonSlot(bool);
+  void writeToBD_ButtonSlot(bool);
+  void readFromBD_ButtonSlot(bool);
 
 public slots:
   void sendEndSession();

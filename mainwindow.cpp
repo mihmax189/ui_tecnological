@@ -43,6 +43,11 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->copyReadDataToWriteDataPushButton, SIGNAL(clicked(bool)), this,
           SLOT(copyDataButtonSlot(bool)));
 
+  connect(ui->writeToBDButton, SIGNAL(clicked(bool)), this,
+          SLOT(writeToBD_ButtonSlot(bool)));
+  connect(ui->readFromBDButton, SIGNAL(clicked(bool)), this,
+          SLOT(readFromBD_ButtonSlot(bool)));
+
   // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
   Codograms::session_regimes_and_strobes buff;
   buff.m.state = session_regimes_and_strobes__begin;
@@ -368,3 +373,7 @@ void MainWindow::copyDataButtonSlot(bool) {
   strobeLengthReadModel->getModelData(data);
   strobeLengthWriteModel->setModelData(data);
 }
+
+void MainWindow::readFromBD_ButtonSlot(bool) {}
+
+void MainWindow::writeToBD_ButtonSlot(bool) {}
