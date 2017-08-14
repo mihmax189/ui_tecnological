@@ -135,6 +135,16 @@ void StrobeLengthWriteModel::getModelData(quint16 (*data)[strobs]) {
       data[row][col] = _data[row][col];
 }
 
+void StrobeLengthWriteModel::setModelData(quint16 (*data)[strobs]) {
+  // Получить данные от модели для считывания, для отображения и редактирования
+  // в представлении для записи.
+  beginResetModel();
+  for (int row = 0; row < _rows; ++row)
+    for (int col = 0; col < _cols; ++col)
+      _data[row][col] = data[row][col];
+  endResetModel();
+}
+
 // Методы StrobeLengthReadModel
 /**
  * @brief StrobeLengthReadModel::StrobeLengthReadModel
@@ -282,4 +292,14 @@ void StrobeLengthReadModel::resetFlags() {
     for (int col = 0; col < _cols; ++col)
       _flags[row][col] = false;
   endResetModel();
+}
+
+void StrobeLengthReadModel::getModelData(quint16 (*data)[strobs]) {
+  /**
+    Берем данные, чтобы скопировать их в модель для записи и для дальнейшего
+    копирования.
+    */
+  for (int row = 0; row < _rows; ++row)
+    for (int col = 0; col < _cols; ++col)
+      data[row][col] = _data[row][col];
 }

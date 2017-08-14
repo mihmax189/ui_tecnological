@@ -26,6 +26,7 @@ public:
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role = Qt::DisplayRole) const;
   void getModelData(quint16 (*data)[strobs]);
+  void setModelData(quint16 (*data)[strobs]);
 };
 
 // Модель данных для чтения расстановок
@@ -51,6 +52,7 @@ public:
   void updateModelData(quint16 (*data)[strobs]);
   void setModelDataForCompare(quint16 (*data)[strobs]);
   void resetFlags();
+  void getModelData(quint16 (*data)[strobs]);
 };
 
 #endif // TABLEMODEL_H
