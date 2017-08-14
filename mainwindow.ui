@@ -209,9 +209,16 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QProgressBar" name="progressBar">
-          <property name="value">
-           <number>0</number>
+         <widget class="QPushButton" name="writeToBDButton">
+          <property name="text">
+           <string>Записать в БД</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="readFromBDButton">
+          <property name="text">
+           <string>Считать из БД</string>
           </property>
          </widget>
         </item>
@@ -475,6 +482,13 @@
        </widget>
       </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>0</number>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
