@@ -157,6 +157,7 @@ StrobeLengthReadModel::StrobeLengthReadModel(QObject *parent)
     for (int col = 0; col < _cols; ++col) {
       _data[row][col] = 0;
       _flags[row][col] = false;
+      _dataForCompare[row][col] = -1;
     }
 }
 
@@ -278,7 +279,9 @@ void StrobeLengthReadModel::updateModelData(quint16 (*data)[strobs]) {
   for (int row = 0; row < _rows; ++row)
     for (int col = 0; col < _cols; ++col)
       _data[row][col] = data[row][col];
+  endResetModel();
 
+  beginResetModel();
   compareData();
   endResetModel();
 }
