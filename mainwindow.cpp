@@ -363,4 +363,8 @@ void MainWindow::setItemsForNumberModuleComboBox(int index) {
   }
 }
 
-void MainWindow::copyDataButtonSlot(bool) {}
+void MainWindow::copyDataButtonSlot(bool) {
+  quint16 data[regims][strobs];
+  strobeLengthReadModel->getModelData(data);
+  strobeLengthWriteModel->setModelData(data);
+}
