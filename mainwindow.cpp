@@ -40,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->regimeComboBox, SIGNAL(activated(int)), this,
           SLOT(setItemsForNumberModuleComboBox(int)));
 
+  connect(ui->copyReadDataToWriteDataPushButton, SIGNAL(clicked(bool)), this,
+          SLOT(copyDataButtonSlot(bool)));
+
   // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
   Codograms::session_regimes_and_strobes buff;
   buff.m.state = session_regimes_and_strobes__begin;
@@ -359,3 +362,5 @@ void MainWindow::setItemsForNumberModuleComboBox(int index) {
     break;
   }
 }
+
+void MainWindow::copyDataButtonSlot(bool) {}
