@@ -228,6 +228,13 @@
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QPushButton" name="copyReadDataToWriteDataPushButton">
+          <property name="text">
+           <string>Копировать данные</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
