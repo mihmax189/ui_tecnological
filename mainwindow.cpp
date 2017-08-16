@@ -370,9 +370,4 @@ void MainWindow::copyDataButtonSlot(bool) {
   quint16 data[regims][strobs];
   strobeLengthReadModel->getModelData(data);
   strobeLengthWriteModel->setModelData(data);
-  /*
-  for (int row = 0; row < regims; ++row)
-    for (int col = 0; col < strobs; ++col)
-      strobeLengthWriteModel->setData(strobeLengthReadModel->index(row, col),
-                                      data[row][col], Qt::EditRole);*/
 }

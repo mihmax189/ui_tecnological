@@ -114,8 +114,6 @@ bool StrobeLengthWriteModel::setData(const QModelIndex &index,
 
   clear();
   QSqlQuery query(db);
-  // db.transaction();
-  query.exec(QString("insert into log values %1").arg(value.toInt()));
   query.prepare(
       QString("UPDATE REGIMES_AND_STROBES SET STROBE_%1 = ? WHERE id = ?")
           .arg(index.column() - 1));
@@ -170,7 +168,7 @@ void StrobeLengthWriteModel::createTable() {
   if (!query.exec(createTableStr))
     qCritical() << "table hasn't created";
 
-  QString initTableStr = "INSERT INTO REGIMES_AND_STROBES VALUES ";
+  QString initTableStr = "INSERT INTO REGIMES_AND_STROBES VALUES";
   QString colTableStr = " ";
   for (int strobe = 0; strobe < strobs - 1; ++strobe)
     colTableStr += QString("%1, ").arg(0);
@@ -221,34 +219,54 @@ void StrobeLengthWriteModel::setDataToBuffer(int row, int col, int val) {
 void StrobeLengthWriteModel::setModelData(quint16 (*data)[strobs]) {
   // Получить данные от модели для считывания, для отображения и редактирования
   // в представлении для записи.
-  // beginResetModel();
   for (int row = 0; row < _rows; ++row)
     for (int col = 0; col < strobs; ++col)
       _data[row][col] = data[row][col];
-  // endResetModel();
 
+  /**
   for (int row = 0; row < _rows; ++row) {
     for (int col = 0; col < strobs; ++col) {
       // после того, как получили данные в внутренний буфер, надо обновить БД
       QModelIndex primaryKeyIndex = QSqlQueryModel::index(row, 0);
       int id = QSqlQueryModel::data(primaryKeyIndex).toInt();
       clear();
-      QSqlQuery query(db);
-      // db.transaction();
-      query.exec(QString("insert into log values %1").arg(_data[row][col]));
       query.prepare(
           QString("UPDATE REGIMES_AND_STROBES SET STROBE_%1 = ? WHERE id = ?")
               .arg(col));
       query.addBindValue(_data[row][col]);
       query.addBindValue(id);
       query.exec();
-    }
-  }
+      refresh();
 
-  refresh();
+      /**
+       * N.B. вместо строк .prepare(), addBindValue(), .exec() можно выполнить
+       * одну
+       * query.exec(QString("UPDATE REGIMES_AND_STROBES SET STROBE_%1 = %2
+       * WHERE id = %3").arg(col).arg(_data[row][col]).arg(id));
+       * * /
+    }
+  }  */
+
+  //////////////////////////////////// VARIANT #2
+  for (int row = 0; row < _rows; ++row) {
+    QString updateTableStr = "UPDATE REGIMES_AND_STROBES SET ";
+    QString colTableStr = "";
+    for (int strobe = 0; strobe < strobs; ++strobe) {
+      colTableStr +=
+          QString("STROBE_%1 = %2, ").arg(strobe).arg(_data[row][strobe]);
+    }
+    colTableStr.replace(colTableStr.length() - 2, 2, " ");
+    colTableStr += QString("WHERE id = %1").arg(row + 1);
+    QSqlQuery query(db);
+    if (!query.exec(updateTableStr + colTableStr))
+      qDebug() << "Error!";
+
+    refresh();
+  }
 }
-/*******************************************/
-// Методы StrobeLengthReadModel
+
+///////////////////////////////////////////// Методы StrobeLengthReadModel
+/////////////////////////////////////////////
 /**
  * @brief StrobeLengthReadModel::StrobeLengthReadModel
  * @param parent
