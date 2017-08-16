@@ -260,9 +260,8 @@ void StrobeLengthWriteModel::setModelData(quint16 (*data)[strobs]) {
     QSqlQuery query(db);
     if (!query.exec(updateTableStr + colTableStr))
       qDebug() << "Error!";
-
-    refresh();
   }
+  refresh();
 }
 
 ///////////////////////////////////////////// Методы StrobeLengthReadModel
