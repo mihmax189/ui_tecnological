@@ -10,7 +10,10 @@ MainWindow::MainWindow(QWidget *parent)
   ui->setupUi(this);
 
   strobeLengthWriteModel = new StrobeLengthWriteModel(this);
+
   ui->writeTableView->setModel(strobeLengthWriteModel);
+  ui->writeTableView->hideColumn(0);
+
   ui->writeTableView->horizontalHeader()->setSectionResizeMode(
       QHeaderView::Stretch);
   ui->writeTableView->verticalHeader()->setSectionResizeMode(
@@ -42,11 +45,6 @@ MainWindow::MainWindow(QWidget *parent)
 
   connect(ui->copyReadDataToWriteDataPushButton, SIGNAL(clicked(bool)), this,
           SLOT(copyDataButtonSlot(bool)));
-
-  connect(ui->writeToBDButton, SIGNAL(clicked(bool)), this,
-          SLOT(writeToBD_ButtonSlot(bool)));
-  connect(ui->readFromBDButton, SIGNAL(clicked(bool)), this,
-          SLOT(readFromBD_ButtonSlot(bool)));
 
   // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
   Codograms::session_regimes_and_strobes buff;
@@ -372,8 +370,9 @@ void MainWindow::copyDataButtonSlot(bool) {
   quint16 data[regims][strobs];
   strobeLengthReadModel->getModelData(data);
   strobeLengthWriteModel->setModelData(data);
+  /*
+  for (int row = 0; row < regims; ++row)
+    for (int col = 0; col < strobs; ++col)
+      strobeLengthWriteModel->setData(strobeLengthReadModel->index(row, col),
+                                      data[row][col], Qt::EditRole);*/
 }
-
-void MainWindow::readFromBD_ButtonSlot(bool) {}
-
-void MainWindow::writeToBD_ButtonSlot(bool) {}
