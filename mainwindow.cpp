@@ -199,6 +199,8 @@ void MainWindow::setButtonToStateProcess(QPushButton *bt) {
 }
 
 void MainWindow::setButtonsToRegularMode() {
+  // Можно использовать контейне указателей на кнопки, которые размещены на
+  // форме
   QPalette pal = ui->sendButton->palette();
   pal.setColor(QPalette::Window, QColor(Qt::blue));
   ui->sendButton->setAutoFillBackground(true);
@@ -216,6 +218,12 @@ void MainWindow::setButtonsToRegularMode() {
   ui->fireButton->setAutoFillBackground(true);
   ui->fireButton->setPalette(pal);
   ui->fireButton->update();
+
+  pal = ui->copyReadDataToWriteDataPushButton->palette();
+  pal.setColor(QPalette::Window, QColor(Qt::blue));
+  ui->copyReadDataToWriteDataPushButton->setAutoFillBackground(true);
+  ui->copyReadDataToWriteDataPushButton->setPalette(pal);
+  ui->copyReadDataToWriteDataPushButton->update();
 }
 
 void MainWindow::setItemsForNumberFragmentComboBox(int index) {
