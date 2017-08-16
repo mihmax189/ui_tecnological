@@ -1,6 +1,8 @@
 #include "tablemodel.h"
 #include <QColor>
+#include <QCoreApplication>
 #include <QDebug>
+#include <QFile>
 
 /**
  * @brief StrobeLengthWriteModel::StrobeLengthWriteModel
@@ -8,12 +10,19 @@
  */
 
 StrobeLengthWriteModel::StrobeLengthWriteModel(QObject *parent)
-    : QAbstractTableModel(parent), _rows(regims), _cols(strobs) {
+    : QSqlQueryModel(parent), _rows(regims), _cols(strobs + 1) {
 
   for (int row = 0; row < _rows; ++row)
-    for (int col = 0; col < _cols; ++col) {
+    for (int col = 0; col < _cols - 1; ++col)
       _data[row][col] = 0;
-    }
+
+  if (!checkDatabase_FileExists()) {
+    connectDatabase();
+    createTable();
+  } else
+    connectDatabase();
+
+  refresh();
 }
 
 /**
@@ -22,22 +31,26 @@ StrobeLengthWriteModel::StrobeLengthWriteModel(QObject *parent)
  * @param role
  * @return
  */
+
 QVariant StrobeLengthWriteModel::data(const QModelIndex &index,
                                       int role) const {
   /**
-    Отображение данных в представлении
-  */
+     Отображение данных в представлении
+   */
   if (!index.isValid())
     return QVariant();
 
   if (role == Qt::TextAlignmentRole)
     return Qt::AlignCenter;
 
-  return (role == Qt::DisplayRole || role == Qt::EditRole)
-             ? _data[index.row()][index.column()]
-             : QVariant();
-
-  return QVariant();
+  // код для sql
+  QVariant val = QSqlQueryModel::data(index, role);
+  if (val.isValid() && (role == Qt::DisplayRole || role == Qt::EditRole)) {
+    const_cast<StrobeLengthWriteModel *>(this)->setDataToBuffer(
+        index.row(), index.column() - 1, val.value<int>());
+    return val.toInt();
+  }
+  return val;
 }
 
 /**
@@ -75,7 +88,7 @@ Qt::ItemFlags StrobeLengthWriteModel::flags(const QModelIndex &index) const {
   if (!index.isValid())
     return Qt::ItemIsEnabled;
 
-  return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+  return QSqlQueryModel::flags(index) | Qt::ItemIsEditable;
 }
 
 /**
@@ -92,12 +105,31 @@ bool StrobeLengthWriteModel::setData(const QModelIndex &index,
     */
 
   if (index.isValid() && role == Qt::EditRole) {
-    _data[index.row()][index.column()] = value.value<int>();
-    emit dataChanged(index, index);
-    return true;
+    _data[index.row()][index.column() - 1] = value.value<int>();
+    // emit dataChanged(index, index);
   }
 
-  return false;
+  QModelIndex primaryKeyIndex = QSqlQueryModel::index(index.row(), 0);
+  int id = QSqlQueryModel::data(primaryKeyIndex).toInt();
+
+  clear();
+  QSqlQuery query(db);
+  // db.transaction();
+  query.exec(QString("insert into log values %1").arg(value.toInt()));
+  query.prepare(
+      QString("UPDATE REGIMES_AND_STROBES SET STROBE_%1 = ? WHERE id = ?")
+          .arg(index.column() - 1));
+  query.addBindValue(value.toInt());
+  query.addBindValue(id);
+  query.exec();
+
+  refresh();
+
+  return true;
+}
+
+void StrobeLengthWriteModel::refresh() {
+  setQuery(QString("SELECT * FROM %1").arg(databaseName), db);
 }
 
 /**
@@ -117,10 +149,57 @@ QVariant StrobeLengthWriteModel::headerData(int section,
     }
 
     if (orientation == Qt::Horizontal)
-      return section;
+      return section - 1;
   }
 
-  return QAbstractTableModel::headerData(section, orientation, role);
+  return QSqlQueryModel::headerData(section, orientation, role);
+}
+
+void StrobeLengthWriteModel::createTable() {
+  qDebug() << "createTable!";
+  // если файл с БД отсутсвтует, то создаем его и при помощи SQL команды создаем
+  // в нем
+  // таблицу и заполняем ее нулями
+  QSqlQuery query(db);
+  QString createTableStr = "create table if not exists REGIMES_AND_STROBES (";
+  createTableStr += "ID INTEGER PRIMARY KEY NOT NULL, ";
+  for (int strobe = 0; strobe < strobs - 1; ++strobe)
+    createTableStr += QString("STROBE_%1 INTEGER, ").arg(strobe);
+  createTableStr += "STROBE_13 INTEGER)";
+
+  if (!query.exec(createTableStr))
+    qCritical() << "table hasn't created";
+
+  QString initTableStr = "INSERT INTO REGIMES_AND_STROBES VALUES ";
+  QString colTableStr = " ";
+  for (int strobe = 0; strobe < strobs - 1; ++strobe)
+    colTableStr += QString("%1, ").arg(0);
+  colTableStr += "0)";
+
+  for (int regime = 0; regime < regims; ++regime)
+    if (!query.exec(initTableStr + QString("(%1,").arg(regime) + colTableStr))
+      qCritical() << "error!" << db.lastError().text();
+}
+
+bool StrobeLengthWriteModel::checkDatabase_FileExists() {
+  qDebug() << "checkDatabase_FileExists!";
+  // проверить, существует ли файл БД с расстановками.
+  if (!QFile(QCoreApplication::applicationDirPath() + "/" + databaseName)
+           .exists())
+    return false;
+  return true;
+}
+
+bool StrobeLengthWriteModel::connectDatabase() {
+  qDebug() << "connectDatabase!";
+  // устанавливаем соединение с БД
+  // Соединение с БД
+  db = QSqlDatabase::addDatabase("QSQLITE", "regimes_and_strobes_connection");
+  db.setDatabaseName(databaseName);
+  if (!db.open())
+    return false;
+
+  return true;
 }
 
 /**
@@ -131,20 +210,44 @@ void StrobeLengthWriteModel::getModelData(quint16 (*data)[strobs]) {
     Берем данные, чтобы отослать их на сервер
     */
   for (int row = 0; row < _rows; ++row)
-    for (int col = 0; col < _cols; ++col)
+    for (int col = 0; col < strobs; ++col)
       data[row][col] = _data[row][col];
+}
+
+void StrobeLengthWriteModel::setDataToBuffer(int row, int col, int val) {
+  _data[row][col] = val;
 }
 
 void StrobeLengthWriteModel::setModelData(quint16 (*data)[strobs]) {
   // Получить данные от модели для считывания, для отображения и редактирования
   // в представлении для записи.
-  beginResetModel();
+  // beginResetModel();
   for (int row = 0; row < _rows; ++row)
-    for (int col = 0; col < _cols; ++col)
+    for (int col = 0; col < strobs; ++col)
       _data[row][col] = data[row][col];
-  endResetModel();
-}
+  // endResetModel();
 
+  for (int row = 0; row < _rows; ++row) {
+    for (int col = 0; col < strobs; ++col) {
+      // после того, как получили данные в внутренний буфер, надо обновить БД
+      QModelIndex primaryKeyIndex = QSqlQueryModel::index(row, 0);
+      int id = QSqlQueryModel::data(primaryKeyIndex).toInt();
+      clear();
+      QSqlQuery query(db);
+      // db.transaction();
+      query.exec(QString("insert into log values %1").arg(_data[row][col]));
+      query.prepare(
+          QString("UPDATE REGIMES_AND_STROBES SET STROBE_%1 = ? WHERE id = ?")
+              .arg(col));
+      query.addBindValue(_data[row][col]);
+      query.addBindValue(id);
+      query.exec();
+    }
+  }
+
+  refresh();
+}
+/*******************************************/
 // Методы StrobeLengthReadModel
 /**
  * @brief StrobeLengthReadModel::StrobeLengthReadModel
