@@ -262,6 +262,9 @@ void StrobeLengthWriteModel::setModelData(quint16 (*data)[strobs]) {
       qDebug() << "Error!";
   }
   refresh();
+
+  emit endCopySignal();
+  emit finished();
 }
 
 ///////////////////////////////////////////// Методы StrobeLengthReadModel

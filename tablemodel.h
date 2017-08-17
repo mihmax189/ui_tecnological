@@ -44,6 +44,10 @@ private:
   bool connectDatabase();
   void createTable();
   void refresh();
+
+signals:
+  void endCopySignal();
+  void finished();
 };
 
 // Модель данных для чтения расстановок
