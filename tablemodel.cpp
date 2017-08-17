@@ -249,6 +249,9 @@ void StrobeLengthWriteModel::setModelData(quint16 (*data)[strobs]) {
 
   //////////////////////////////////// VARIANT #2
   for (int row = 0; row < _rows; ++row) {
+    // после того, как получили данные в внутренний буфер, надо обновить БД
+    QModelIndex primaryKeyIndex = QSqlQueryModel::index(row, 0);
+    int id = QSqlQueryModel::data(primaryKeyIndex).toInt();
     QString updateTableStr = "UPDATE REGIMES_AND_STROBES SET ";
     QString colTableStr = "";
     for (int strobe = 0; strobe < strobs; ++strobe) {
@@ -256,14 +259,13 @@ void StrobeLengthWriteModel::setModelData(quint16 (*data)[strobs]) {
           QString("STROBE_%1 = %2, ").arg(strobe).arg(_data[row][strobe]);
     }
     colTableStr.replace(colTableStr.length() - 2, 2, " ");
-    colTableStr += QString("WHERE id = %1").arg(row + 1);
+    colTableStr += QString("WHERE ID = %1").arg(id);
     QSqlQuery query(db);
     if (!query.exec(updateTableStr + colTableStr))
       qDebug() << "Error!";
   }
   refresh();
 
-  emit endCopySignal();
   emit finished();
 }
 
