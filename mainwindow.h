@@ -6,11 +6,44 @@
 #include <QMainWindow>
 #include <QPalette>
 #include <QPushButton>
+#include <QThread>
 #include <QUdpSocket>
 
 namespace Ui {
 class MainWindow;
 }
+
+class WorkerThread : public QThread {
+  Q_OBJECT
+
+public:
+  WorkerThread(QObject *parent = 0) : QThread(parent) {}
+
+  ~WorkerThread() {}
+
+  void setFunction(StrobeLengthWriteModel *obj, quint16 (*data)[14]) {
+    _obj = obj;
+    // работаем с копией данных, т.к. они доступны для основного потока программы
+    // и потока WorkerThread
+    copy(data);
+  }
+
+  void run() {
+    qDebug() << "run!";
+    _obj->setModelData(_data);
+  }
+
+private:
+  void copy(quint16 (*data)[14]) {
+      for (int row = 0; row < 24; row++)
+          for (int col = 0; col < 14; col++)
+              _data[row][col] = data[row][col];
+  }
+
+  //quint16 (*_data)[14];
+  quint16 _data[24][14];
+  StrobeLengthWriteModel *_obj;
+};
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -45,6 +78,7 @@ private slots:
 
 public slots:
   void sendEndSession();
+  void finishWork();
 };
 
 #endif // MAINWINDOW_H

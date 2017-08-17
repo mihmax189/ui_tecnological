@@ -46,6 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->copyReadDataToWriteDataPushButton, SIGNAL(clicked(bool)), this,
           SLOT(copyDataButtonSlot(bool)));
 
+  connect(strobeLengthWriteModel, SIGNAL(finished()), SLOT(finishWork()));
+
   // посылка кодограммы на сервер о начале работы сеанса прожига расстановок
   Codograms::session_regimes_and_strobes buff;
   buff.m.state = session_regimes_and_strobes__begin;
@@ -375,7 +377,17 @@ void MainWindow::setItemsForNumberModuleComboBox(int index) {
 }
 
 void MainWindow::copyDataButtonSlot(bool) {
+  setButtonToStateProcess(ui->copyReadDataToWriteDataPushButton);
   quint16 data[regims][strobs];
   strobeLengthReadModel->getModelData(data);
-  strobeLengthWriteModel->setModelData(data);
+  // test code
+  WorkerThread *workerThread = new WorkerThread(this);
+  workerThread->setFunction(strobeLengthWriteModel, data);
+  workerThread->start();
+
+  //strobeLengthWriteModel->setModelData(data);
+}
+
+void MainWindow::finishWork() {
+  setButtonsToRegularMode();
 }
