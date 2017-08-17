@@ -385,9 +385,7 @@ void MainWindow::copyDataButtonSlot(bool) {
   workerThread->setFunction(strobeLengthWriteModel, data);
   workerThread->start();
 
-  //strobeLengthWriteModel->setModelData(data);
+  // strobeLengthWriteModel->setModelData(data);
 }
 
-void MainWindow::finishWork() {
-  setButtonsToRegularMode();
-}
+void MainWindow::finishWork() { setButtonsToRegularMode(); }
