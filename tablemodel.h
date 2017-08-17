@@ -20,6 +20,7 @@ private:
 
 public:
   StrobeLengthWriteModel(QObject *parent = 0);
+  ~StrobeLengthWriteModel() { db.close(); }
 
   Qt::ItemFlags flags(const QModelIndex &index) const;
   bool setData(const QModelIndex &index, const QVariant &value, int role);
